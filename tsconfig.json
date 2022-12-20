@@ -18,7 +18,10 @@
     },
     "plugins": [
       {
-        "transform": "war3-transformer"
+        "transform": "war3-transformer",
+        "mapDir": "C:/Users/Eddy/Desktop/Personal  Projects/WARCRAFT PROJECTS/defend the castle typescript/wc3-ts-template/maps/hero-tower-defense-lua.w3x",
+        "entryFile": "C:/Users/Eddy/Desktop/Personal  Projects/WARCRAFT PROJECTS/defend the castle typescript/wc3-ts-template/src/main.ts",
+        "outputDir": "C:/Users/Eddy/Desktop/Personal  Projects/WARCRAFT PROJECTS/defend the castle typescript/wc3-ts-template/dist/hero-tower-defense-lua.w3x"
       }
     ],
     "types": [
