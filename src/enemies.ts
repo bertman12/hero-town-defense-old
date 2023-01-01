@@ -5,29 +5,19 @@ import { addScriptHook, W3TS_HOOK } from "w3ts/hooks";
 import { UNIT_IDS, ZOMBIE_MUTATION_ID, SHRIFT_ABILITIES } from "enums";
 
 /**
+ * Player 21 = Attacker forces.
+ */
+
+/**
  * The round count will be used to modify the base zombie stats when they are spawned.
  */
 let waveCount = 0;
 let waveTag:TextTag = null;
 
-export function initEnemyWaves(){
-    let waveTimer = new Timer();
-  
-    // waveTag = new TextTag();
-    // waveTag.setLifespan(30000)
-    // waveTag.setPos(0,0,200);
-    // waveTag.setText(`Wave: ${waveCount} `, 0, false);
-    // waveTag.setLifespan(30000)
-    // waveTag.setVisible(true);
-
-    waveTimer.start(30, true, handleSpawnEnemyWave);
-
-    // let waveTimerDialog = new TimerDialog(waveTimer);
-    // print("Remaining time on the wave timer: ", waveTimer.remaining);
-    // waveTimerDialog.setTimeRemaining(waveTimer.remaining);
-    // waveTimerDialog.setTitle(`Time until wave ${waveCount}...`);
-    // waveTimerDialog.setTimeColor(255,255,255,255);
-    // waveTimerDialog.display = true;
+export function initAttackerForces(){
+    spawnEnemyForce();
+    // let waveTimer = new Timer();
+    // waveTimer.start(30, true, handleSpawnEnemyWave);
 }
 
 function handleSpawnEnemyWave(){
@@ -86,5 +76,22 @@ function mutateEnemy(unit: Unit){
     unit.moveSpeed += 100;
   
     unit.name = `Mutated Zombie - Round ${waveCount}`;
+}
+
+const enemySpawnPoint = {
+  x: -6350,
+  y: -13550 
+}
+
+export function spawnEnemyForce(){
+  let group = new Group();  
+  
+  for (let x = 0; x < 10; x++) {
+      let unit = new Unit(Players[20], UNIT_IDS.abomination, enemySpawnPoint.x, enemySpawnPoint.y, 0);
+      group.addUnit(unit);
+  }
+
+  group.orderPoint(OrderId.Attack, new Point(0,0));
+  SetTerrainType(0,0, 0,0,1200,0);
 }
 

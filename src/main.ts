@@ -4,9 +4,10 @@ import { OrderId } from "w3ts/globals/order";
 import { addScriptHook, W3TS_HOOK } from "w3ts/hooks";
 import { UNIT_IDS, ZOMBIE_MUTATION_ID, SHRIFT_ABILITIES } from "enums";
 import { setupAbilityTriggers } from "abilities";
-import { initEnemyWaves } from "enemies";
+import { initAttackerForces } from "enemies";
 import { initializePlayers } from "players";
 import { initEconomy } from "economy";
+import { playStartMusic } from "music";
  
 const BUILD_DATE = compiletime(() => new Date().toUTCString());
 const TS_VERSION = compiletime(() => require("typescript").version);
@@ -49,8 +50,8 @@ function mapStart(){
   setupAbilityTriggers();
   initializePlayers();
   initEconomy();
-  // initEnemyWaves();
-  
+  initAttackerForces();
+  playStartMusic();
   // Players[12].setState(PLAYER_STATE_GIVES_BOUNTY, 1);
   // Players[12].name = 'Zombie Forces';
 }

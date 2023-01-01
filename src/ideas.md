@@ -27,3 +27,20 @@ definitely have obs and sentry wards.. lol
 
 
 
+echo "# hero-town-defense" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/bertman12/hero-town-defense.git
+git push -u origin main
+
+//Attacking Forces
+
+You can spawn in a building that summons Attacker Forces for you. 
+
+Maybe each team could have a general that creates armies instead of managing a hero.
+Or perhaps have AI handle this portion, however , human controlled will always be better for this scenario.
+
+
+

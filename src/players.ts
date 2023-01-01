@@ -13,45 +13,37 @@ const defenderSpawnCoords = {
     y: -16400
 }
 
+const attackerSpawnCoords = {
+    x: 16500,
+    y: -16850
+}
+
+const attackerHeroStartCoords = {
+    x: 0,
+    y: 0
+}
+
+const defenderHeroStartCoords = {
+    x: 0,
+    y: 0
+}
+
 export function initializePlayers(){
     
-    Players.forEach((player, index) => {
+    Players.forEach((player, playerIndex) => {
         if(player.slotState === PLAYER_SLOT_STATE_PLAYING && player.isPlayerAlly(Players[0]) && (player.controller === MAP_CONTROL_USER)){
             print(`Player ${player.name} is playing and is red's ally!`);
             
             // SetPlayerMaxHeroesAllowed(1, Player(0))
             // SetPlayer
-            
-            userPlayers++;
 
-            userPlayerIndexes.push(index);
-
-            player.setState(PLAYER_STATE_RESOURCE_GOLD, 1000);
-            player.setState(PLAYER_STATE_RESOURCE_LUMBER, 500);
-            player.setState(PLAYER_STATE_RESOURCE_FOOD_CAP, 100);
-
-            if(player.team === 0) print("Player is on team 0!");
-            
-            trig_moveTrainedHeroToStartLoc(player);
-
-            let soul = new Unit(player, CUSTOM_UID.soul, defenderSpawnCoords.x, defenderSpawnCoords.y, 0);
-
-
-            // playerStartUnit.nameProper = "\"G\" - The Glutton";
-
-            // let playerStartUnit = new Unit(player, PLAYER_HERO_ID.theGlutton , 0,0,0);
-            
-            // playerStartUnit.addAbility(SHRIFT_ABILITIES.theUnbound);
-
-            // playerStartUnit.addAbility(SHRIFT_ABILITIES.theGlutton);
-            // playerStartUnit.addAbility(SHRIFT_ABILITIES._theGluttonCargo);
-
-            // player.team
-            // player.setState()
-            // print("The Giver has granted you the shrift ...", GetAbilityName(SHRIFT_ABILITIES.theUnbound));
-            // print("The Giver has granted you the shrift ...", GetAbilityName(SHRIFT_ABILITIES.theGlutton));
+            if(player.team === 0) {
+                handleDefenderInitialization(player, playerIndex);
+            }
+            else if(player.team === 1){
+                handleAttackerInitialization(player, playerIndex)
+            }
         }
-
     });
 }
 
@@ -72,20 +64,30 @@ function trig_moveTrainedHeroToStartLoc(player: MapPlayer){
     });
 }
 
-/**
- * Gets all the players playing
- */
-function getCurrentPlayers(){
+function handleDefenderInitialization(player: MapPlayer, playerIndex: number){
+    userPlayers++;
 
+    userPlayerIndexes.push(playerIndex);
+
+    player.setState(PLAYER_STATE_RESOURCE_GOLD, 500);
+    player.setState(PLAYER_STATE_RESOURCE_LUMBER, 500);
+    player.setState(PLAYER_STATE_RESOURCE_FOOD_CAP, 100);
+    
+    trig_moveTrainedHeroToStartLoc(player);
+
+    let soul = new Unit(player, CUSTOM_UID.soul, defenderSpawnCoords.x, defenderSpawnCoords.y, 0);
 }
 
-function handlePlayerDisconnect(){
-    // let trigger = new Trigger();
+function handleAttackerInitialization(player: MapPlayer, playerIndex: number){
+    userPlayers++;
 
-    // Players.forEach((player, index) => {
-    //     if(userPlayerIndexes.some(val => val === index)){
-    //         trigger.registerPlayerStateEvent(player)
-    //     }
-    // });   
+    userPlayerIndexes.push(playerIndex);
+
+    player.setState(PLAYER_STATE_RESOURCE_GOLD, 500);
+    player.setState(PLAYER_STATE_RESOURCE_LUMBER, 500);
+    player.setState(PLAYER_STATE_RESOURCE_FOOD_CAP, 100);
+    
+    trig_moveTrainedHeroToStartLoc(player);
+
+    let soul = new Unit(player, CUSTOM_UID.soul, attackerSpawnCoords.x, attackerSpawnCoords.y, 0);
 }
-
