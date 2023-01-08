@@ -44,7 +44,7 @@ function tsMain() {
  */
 
 function mapStart(){
-  let clearFogState = new FogModifier(Players[0], FOG_OF_WAR_VISIBLE, 0,0, 3000, true, true)
+  let clearFogState = new FogModifier(Players[0], FOG_OF_WAR_VISIBLE, 0,0, 12000, true, true)
   clearFogState.start();
 
   setupAbilityTriggers();
@@ -52,6 +52,7 @@ function mapStart(){
   initEconomy();
   initAttackerForces();
   playStartMusic();
+
   // Players[12].setState(PLAYER_STATE_GIVES_BOUNTY, 1);
   // Players[12].name = 'Zombie Forces';
 }
