@@ -22,7 +22,9 @@ export enum UNIT_IDS {
 }
 
 export enum BUILDING_IDS {
-    townHall = FourCC('h004')
+    townHall = FourCC('h004'),
+    orcFortress = FourCC('ofrt'),
+    heroicStatue = FourCC('h006')
 }
 
 export enum SHRIFT_ABILITIES {
@@ -43,7 +45,8 @@ export const ABILITY_SETS = {
  * Custom unit ids
  */
 export enum CUSTOM_UID {
-    soul = FourCC('e001')
+    soul = FourCC('e001'),
+    positionalTarget = FourCC('h005')
 }
 
 export enum TERRAIN_CODE {
@@ -63,6 +66,13 @@ export enum TERRAIN_CODE {
 export enum SHAPE_CODE {
     circle = 0,
     square = 0,
+}
+
+export enum DESTRUCTABLE_ID {
+    winterTree = FourCC('WTtw'),
+    summerTree = FourCC('LTlt'),
+    volcano = FourCC('Volc'),
+    outlandTreeWall = FourCC('OTtw'),
 }
 
 /**

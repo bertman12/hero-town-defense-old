@@ -30,7 +30,12 @@ function tsMain() {
   print("Welcome to TypeScript!");
   
   try {
-    mapStart();
+    let startTimer = new Timer();
+    
+    print("The Good Lord Gaben said let there be light, and there was light!");
+
+    startTimer.start(1, false, mapStart)
+    // mapStart();
   } catch (error) {
     print(`An error occurred: ${error}`);
   }
@@ -44,21 +49,17 @@ function tsMain() {
  */
 
 function mapStart(){
-  let clearFogState = new FogModifier(Players[0], FOG_OF_WAR_VISIBLE, 0,0, 12000, true, true)
-  clearFogState.start();
+  // let clearFogState = new FogModifier(Players[0], FOG_OF_WAR_VISIBLE, 0,0, 25000, true, true)
+  // clearFogState.start();
 
   setupAbilityTriggers();
   initializePlayers();
   initEconomy();
-  initAttackerForces();
+  // initAttackerForces();
   playStartMusic();
 
   // Players[12].setState(PLAYER_STATE_GIVES_BOUNTY, 1);
   // Players[12].name = 'Zombie Forces';
 }
-
-
-
-
 
 addScriptHook(W3TS_HOOK.MAIN_AFTER, tsMain);

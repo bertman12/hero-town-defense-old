@@ -1,3 +1,4 @@
+import { DESTRUCTABLE_ID } from './enums';
 import { Destructable, File, FogModifier, Group, Point, Timer, TimerDialog, Trigger, Unit, Widget, Handle, Effect, MapPlayer, Region, Rectangle, Color } from "w3ts";
 import { Players } from "w3ts/globals";
 import { OrderId } from "w3ts/globals/order";
@@ -5,6 +6,9 @@ import { addScriptHook, W3TS_HOOK } from "w3ts/hooks";
 import { UNIT_IDS, ZOMBIE_MUTATION_ID, SHRIFT_ABILITIES, PLAYER_HERO_ID, CUSTOM_UID, BUILDING_IDS, TERRAIN_CODE } from "enums";
 import { PointClusterConfig } from "models";
 import { createPointCluster_Simple } from "utils/points";
+import { TILE_WIDTH, treePointClusterConfig, numWorldlyEntities } from "constants";
+import { generateRandomName } from 'utils/names';
+import { generateWorld } from 'dynamicCreation';
 
 export let userPlayers = 0;
 
@@ -30,17 +34,14 @@ const defenderHeroStartCoords = {
     y: 0
 }
 
-let testSpawn = new Point(7150, -2150);
+let townSpawn = new Point(7150, -2150);
 
-const treePointClusterConfig: PointClusterConfig = {
-    numberOfPoints: 10,
-    minTileDistanceFromOrigin: 5,
-    maxTileDistanceTiles: 10,
-    originLoc: new Point(testSpawn.x, testSpawn.y)
-}
+let townSpawnPoints:Point[] = [townSpawn];
+
 
 export function initializePlayers(){
-    
+    SetCinematicCameraForPlayer(Players[0].handle, '');
+
     Players.forEach((player, playerIndex) => {
         if(player.slotState === PLAYER_SLOT_STATE_PLAYING && player.isPlayerAlly(Players[0]) && (player.controller === MAP_CONTROL_USER)){
             print(`Player ${player.name} is playing and is red's ally!`);
@@ -54,9 +55,11 @@ export function initializePlayers(){
         }
     });
 
-    for (let x = 0; x < 15; x++) {
-        autoGenerateTown()
-    }
+    print("Camera X bound",GetCameraBoundMaxX())
+    print("Camera Y bound",GetCameraBoundMaxY())
+    
+   
+    generateWorld();
 }
 
 //MOve camera too
@@ -105,36 +108,6 @@ function handleAttackerInitialization(player: MapPlayer, playerIndex: number){
     let soul = new Unit(player, CUSTOM_UID.soul, attackerSpawnCoords.x, attackerSpawnCoords.y, 0);
 }
 
-
-
-function autoGenerateTown(){
-    let townHall = new Unit(Players[9], BUILDING_IDS.townHall, testSpawn.x, testSpawn.y, 0);
-    
-    if(townHall.isUnitType(UNIT_TYPE_STRUCTURE)) townHall.name += ` - ${new Color(255, 100, 0).code}Structure|r \nTest new line`;
-
-    for (let x = 0; x < 3; x++) {
-        new Unit(Players[9], UNIT_IDS.footman, (testSpawn.x + 300 - 100*x), (testSpawn.y + 300 + 100*x), 0)
-        new Unit(Players[9], UNIT_IDS.rifleman, (testSpawn.x - 300 + 100*x), (testSpawn.y - 300 - 100*x), 0)
-    }
-    
-    // checkTerrainRegion(4, new Point(0,0))
-    // checkTerrainRegion(0, new Point(0,0))
-    // checkTerrainRegion(1, new Point(0,0))
-    // checkTerrainRegion(3, new Point(0,0))
-    // checkTerrainRegion(9, new Point(0,0))
-    // checkTerrainRegion(16, new Point(0,0));
-    
-    createTreeCluster();
-    createTreeCluster();
-    createTreeCluster();
-    createTreeCluster();
-    
-    // printTerrainTypes();
-
-    //At the end of every town creation, test spawn coords change.
-    testSpawn = new Point(3600 + Math.random()*12500, Math.cos(180*Math.random())*10000);
-}
-
 function printTerrainTypes(){
     //DIRT: 1281651316
     const startNumber = 1281651316;
@@ -153,27 +126,6 @@ function printTerrainTypes(){
     // Terrain
 
     File.write("terrainCodes_test.txt", dataString);
-}
-
-function createTreeCluster(){
-    treePointClusterConfig.originLoc = testSpawn;
-
-    let points = createPointCluster_Simple(treePointClusterConfig);
-
-    points.forEach(point => {
-        new Destructable(FourCC('LTlt'), point.x, point.y, 500, 0, 1, 0);
-        SetTerrainType(point.x, point.y, TERRAIN_CODE.darkGrass, 0, 2, 0);
-    });
-}
-
-
-
-
-/**
- * Creates a cluster of units centered around a given location.
- */
-function createUnitCluster(){
-
 }
 
 /**

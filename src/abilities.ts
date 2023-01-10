@@ -8,7 +8,8 @@ export function setupAbilityTriggers(){
 }
 
 function initTheUnbound(){  
-    let trigger = new Trigger()
+    let trigger = new Trigger();
+    
     trigger.registerAnyUnitEvent(EVENT_PLAYER_UNIT_SPELL_EFFECT);
 
     trigger.addCondition(() => {

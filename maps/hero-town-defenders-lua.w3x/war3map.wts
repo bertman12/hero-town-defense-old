@@ -222,3 +222,15 @@ STRING 47
 Demonic Flame Keeper
 }
 
+STRING 48
+// Units: h005 (PositionalTarget), Name (Name)
+{
+PositionalTarget
+}
+
+STRING 49
+// Units: h006 (Heroic Statue), Name (Name)
+{
+Heroic Statue
+}
+
