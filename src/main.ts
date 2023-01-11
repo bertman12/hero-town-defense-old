@@ -1,13 +1,14 @@
-import { Destructable, File, FogModifier, Group, Point, Timer, TimerDialog, Trigger, Unit, Widget, Handle, Effect } from "w3ts";
+import { Destructable, File, FogModifier, Group, Point, Timer, TimerDialog, Trigger, Unit, Widget, Handle, Effect, Frame } from "w3ts";
 import { Players } from "w3ts/globals";
 import { OrderId } from "w3ts/globals/order";
 import { addScriptHook, W3TS_HOOK } from "w3ts/hooks";
-import { UNIT_IDS, ZOMBIE_MUTATION_ID, SHRIFT_ABILITIES } from "enums";
+import { UNIT_IDS, ZOMBIE_MUTATION_ID, SHRIFT_ABILITIES, DESTRUCTABLE_ID } from "enums";
 import { setupAbilityTriggers } from "abilities";
 import { initAttackerForces } from "enemies";
 import { initializePlayers } from "players";
 import { initEconomy } from "economy";
 import { playStartMusic } from "music";
+import { generateWorld } from "dynamicCreation";
  
 const BUILD_DATE = compiletime(() => new Date().toUTCString());
 const TS_VERSION = compiletime(() => require("typescript").version);
@@ -28,6 +29,12 @@ function tsMain() {
   print(`Transpiler: v${TSTL_VERSION}`);
   print(" ");
   print("Welcome to TypeScript!");
+
+  // TerrainDeformCrater(0, 0, 1000, 1000, 5, true);
+  // [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,,0,0,0,0,0,0,0,0,0,0,].forEach((_, index) => {
+  //   print(index);
+  //   let d = new Destructable(DESTRUCTABLE_ID.testRock, 0, 0, 800, 0, 5, index);
+  // })
   
   try {
     let startTimer = new Timer();
@@ -35,7 +42,7 @@ function tsMain() {
     print("The Good Lord Gaben said let there be light, and there was light!");
 
     startTimer.start(1, false, mapStart)
-    // mapStart();
+
   } catch (error) {
     print(`An error occurred: ${error}`);
   }
@@ -52,11 +59,16 @@ function mapStart(){
   let clearFogState = new FogModifier(Players[0], FOG_OF_WAR_VISIBLE, 0,0, 25000, true, true)
   clearFogState.start();
 
+  const buttonFrame = new Frame("Button Test", Frame.fromOrigin(ORIGIN_FRAME_GAME_UI, 0), 0, 0, "GLUEBUTTON", "");
+  buttonFrame.setVisible(true);
+  // BlzCreateFrame("Test", )
+
   setupAbilityTriggers();
   initializePlayers();
   initEconomy();
   // initAttackerForces();
   playStartMusic();
+  generateWorld();
 
   // Players[12].setState(PLAYER_STATE_GIVES_BOUNTY, 1);
   // Players[12].name = 'Zombie Forces';

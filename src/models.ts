@@ -24,7 +24,7 @@ export interface PointClusterConfig {
     maxTileDistanceFromClusterOrigin?: number
 }
 
-export type EntityType = 'Town' | 'Landmark' | 'Boss' | 'Unit' | 'Camp' | 'Shop' | 'Terrain Feature'
+export type EntityType = 'Town' | 'Landmark' | 'Boss' | 'Unit' | 'Camp' | 'Shop' | 'Terrain Feature';
 
 export interface GeneratedEntity {
     /**
@@ -36,15 +36,22 @@ export interface GeneratedEntity {
      * Perhaps should be calculated based on the point cluster config used to create the entity, it would make sense anyways
      */
     tileBoundRadius: number,
+    /**
+     * Spawning location for entity
+     */
     origin: Point,
     /**
      * Defines a specific tile set to use for this entity. Tilesets possible are restricted by the entity type.
      */
     tileSetId: number,
     /**
-     * Controls what trees spawn around the entity
+     * @deprecated Controls what trees spawn around the entity
      */
     treeSetId: number,
+    /**
+     * Decides what destructables will spawn around the entity
+     */
+    destructableSetId: number
 }
 
 export interface TileSetType{
@@ -77,6 +84,33 @@ export interface TileConfig {
      */
     tileArea?: number
 
+}
+
+export interface DestructableConfig {
+    /**
+     * Id number that associates with this tile configuration
+     */
+    destructableConfigId: number,
+    /**s
+     * Tile terrain code
+     */
+    destructableCode: number,
+    /**
+     * Different style for tile
+     */
+    destructableVariations: number,
+    /**
+     * Different style for tile
+     */
+    destructableScale?: number,
+    /**
+     * Describes area the tile spawns in and the number of spawn points
+     */
+    clusterConfig: PointClusterConfig,
+    /**
+     * The number of time this tile cluster will be created
+     */
+    pointClusterCount: number,
 }
 
 export interface DoodadConfig {

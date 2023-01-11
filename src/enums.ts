@@ -39,6 +39,10 @@ export enum LANDMARK_IDS {
     theKeeper = FourCC('h008'),
 }
 
+export enum SHOP_UIDS {
+    shop1 = FourCC('n002'),
+}
+
 export enum SHRIFT_ABILITIES {
     //"U" The unbound
     theUnbound = FourCC('A000'),
@@ -85,7 +89,20 @@ export enum DESTRUCTABLE_ID {
     summerTree = FourCC('LTlt'),
     volcano = FourCC('Volc'),
     outlandTreeWall = FourCC('OTtw'),
+    
+    orgrimmarGate = FourCC('YTcn'),
+    //Current usage
+    // rock = FourCC('B001'),
+    damagedShip = FourCC('NTbd'),
+    originSpawn = FourCC('B002'), 
+    attemptedOriginSpawn = FourCC('B003'), 
+
+    rock = FourCC('B004'),
+    flowers = FourCC('B000'),
+    // testRock = FourCC('B001'),
 }
+
+
 
 export const TERRAIN_VARIANCES = {
     1281651316 : 18,

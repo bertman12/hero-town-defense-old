@@ -1,3 +1,4 @@
+import { EntityType } from "models"
 
 const adjectives = [
     'Bright',
@@ -56,6 +57,12 @@ const townSuffixes = [
     'Borough'
 ]
 
+const shopNames = [
+    'Shop',
+    'Merchant',
+    'Trade Post'
+]
+
 const landmarkPrefixes = [
     'The Rise of ',
     'The Fall of ',
@@ -84,16 +91,21 @@ const names = [
 
 /**
  * Randomly combines adjective + noun, noun + noun, adjective + adjective
+ * @param {EntityType} nameType
  */
-export function generateRandomName(nameType){
+export function generateRandomName(nameType: EntityType, other?: any){
     let name = ''
 
-    if(nameType.town){
+    if(nameType === 'Town'){
         name = getRandomNameFromSet(adjectives) + getRandomNameFromSet(nouns) + ' ' + getRandomNameFromSet(townSuffixes);
     }
 
-    if(nameType.landmark){
+    if(nameType === 'Landmark'){
         name = getRandomNameFromSet(landmarkPrefixes) + getRandomNameFromSet(names);
+    }
+
+    if(nameType === 'Shop'){
+        name = getRandomNameFromSet(shopNames);
     }
 
     return name;

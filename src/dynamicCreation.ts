@@ -1,6 +1,6 @@
-import { TileConfig } from './models';
-import { LANDMARK_IDS, TERRAIN_VARIANCES } from './enums';
-import { numWorldlyEntities, TILE_WIDTH, treePointClusterConfig } from "gameConstants";
+import { DestructableConfig, TileConfig } from './models';
+import { LANDMARK_IDS, SHOP_UIDS, TERRAIN_VARIANCES } from './enums';
+import { destructableSets, numWorldlyEntities, TILE_WIDTH, treePointClusterConfig } from "gameConstants";
 import { BUILDING_IDS, DESTRUCTABLE_ID, TERRAIN_CODE, UNIT_IDS } from "enums";
 import { GeneratedEntity } from "models";
 import { generateRandomName } from "utils/names";
@@ -28,29 +28,49 @@ const entities: GeneratedEntity[] = [];
  */
 let destructableSpawnPoints: Point[] = []
 
+const MAX_ENTITY_CREATION_ATTEMPTS = 600;
+const MAP_EDGE_BUFFER_DISTANCE = 400;
+
+/**
+ * Used to store where the destructables will be created.
+ */
+let destructableTasks =  [];
+
+
 /**
  * Perhaps instead of always creating a town, we should randomly decide what to create, like landmarks, etc.
+ * 
+ * @todo modify the execution order of creation - Should be
+ * 1: terrain deformations
+ * 2: destructables
+ * 3: units
  */
 export function generateWorld(){
 
     //Create Terrain Deformations
 
-
-
     //Create an finite amount of entities - add break condition if attempts get to high
     for (let x = 0; x < numWorldlyEntities; x++) {
 
         //Start a timer to spread the creation of entities over time
-        let t = new Timer().start(1 + 0.05*x,false,() => {
+        let t = new Timer().start(1, false,() => {
             //Towns must be separated by each other by a fixed amount
 
             //Check every point in the array, if none of them make the new point invalid then add the point
             //Otherwise repeat the cycle
+
             let validPoint = true;
             
             let entity:GeneratedEntity = generateEntityType()
+            
+            let breakpointAttempts = 0;
 
             do{
+
+                if(breakpointAttempts >= MAX_ENTITY_CREATION_ATTEMPTS){
+                    break;
+                }
+
                 //Reset to true after a full loop
                 validPoint = true;
 
@@ -60,7 +80,7 @@ export function generateWorld(){
                     const pointToTest = entities[x].origin;
                     //Add condition to not select point if the comparison entity point is breaking it's boundary range 
                     if((pointToTest.x - entity.origin.x)*(pointToTest.x - entity.origin.x) + (pointToTest.y - entity.origin.y)*(pointToTest.y - entity.origin.y)  < (TILE_WIDTH*entity.tileBoundRadius)*(TILE_WIDTH*entity.tileBoundRadius)){
-                        entity.origin = new Point(Math.cos(180*Math.random())*16000, Math.cos(180*Math.random())*16000);
+                        entity.origin = new Point(Math.cos(180*Math.random())*(GetCameraBoundMaxX() - MAP_EDGE_BUFFER_DISTANCE), Math.cos(180*Math.random())*(GetCameraBoundMaxY() -MAP_EDGE_BUFFER_DISTANCE));
 
                         validPoint = false;
 
@@ -68,30 +88,125 @@ export function generateWorld(){
                     }
                 }
 
+                breakpointAttempts++;
             //Repeat until valid point is true
-            } while (!validPoint);
+            } while (!validPoint && breakpointAttempts < MAX_ENTITY_CREATION_ATTEMPTS);
 
+            //If you have reached the max attempts to find a location for the entity, then destroy the timer and end the function.
+            if(breakpointAttempts >= MAX_ENTITY_CREATION_ATTEMPTS){
+                t.destroy();
+                // print("Entity creation complete!")
+
+                /**
+                 * @test Marks where entities failed to be created
+                 */
+                // let d = new Destructable(DESTRUCTABLE_ID.attemptedOriginSpawn, entity.origin.x, entity.origin.y, 1000, 0, 1, 0);
+
+                return;                
+            }
+
+            //If the entity is successful in being created, then you may add it to the array of entities
             entities.push(entity);
 
-            createEntity(entity);
-            
+            /**
+             * @test Marks where entities successfully are created
+             */
+            // let d = new Destructable(DESTRUCTABLE_ID.originSpawn, entity.origin.x, entity.origin.y, 1000, 0, 1, 0);
+
             t.destroy();
         });
-        
     }
 
-    // print("Testing random enum value: ", chooseRandomEnumValue(BUILDING_IDS));
+    let tInfoTimer = new Timer().start(7, false, () => {
+        print("Creating hills...");
+        tInfoTimer.destroy();
+    })
 
-    //Create Destructables
+    //Terrain deformations need to occur where the destructables spawn, in order to look decent, however we to determine the entities destructable locations before creating them and use those points to make the terrain deformations
+    let terrainDeformTimer = new Timer().start(5, false, () => {
+        
+        /**
+         * We are creating the points where destructables will spawn for each entity
+         * We are also doing our terrain deformations before the destructables will be spawned. 
+         */
+        entities.forEach(entity => {
+            /**
+             * Based on the destructable set, using the entity origin, we create a point cluster for each cluster count in the config
+             * Then we create a terrain deformation at an arbitrary point in the set of the cluster origin
+             * Then we store the point and the modified destructable config which will then be used when generating destructables.
+             */
+            destructableSets[`${entity.type}`][entity.destructableSetId].forEach((destructableConfig: DestructableConfig) => {
+                destructableConfig.clusterConfig.originLoc = entity.origin;
+                
+                //Create points for each cluster count for the config
+                for (let x = 0; x < destructableConfig.pointClusterCount; x++) {
+                
+                    let points = createPointCluster_Simple(destructableConfig.clusterConfig);
+    
+                    //The point we chose doesn't really matter, it is just a random point made around the cluster origin
+                    TerrainDeformCrater(points[0].x, points[0].y, 400, -(100 + Math.random()*150), 5, true);
+    
+                    points.forEach(point => {
+                        //Start a timer to get accurate unit z location after terrain deformations
+                        let t = new Timer().start(1,false, () => {
+                            //Since ill be iterating over the same destructable config in the same order, then I don't need to store teh config
+                            destructableTasks.push({point, config: destructableConfig});
+                        });
+                    });
+                }
 
+            });
+
+        });
+        terrainDeformTimer.destroy();
+    });
+
+    let dPrepTimer = new Timer().start(7, false, () => {
+        print("Creating Destructables and Doodads and Units... prepare for some lag!");
+        print("Number of entities: ", entities.length);
+        print("Number of destructables and doodads: ", destructableTasks.length);
+        // print("Number of entities: ", entities.length);
+        dPrepTimer.destroy();
+    })
+
+    let destructableTimer = new Timer().start(10, false, () => {
+
+
+        //We are creating destructables at the predefined points now
+        destructableTasks.forEach((data: {point: Point, config: DestructableConfig}) => {
+
+            //May add timer here if I want to create destructables over time instead of instantly
+            let randomVariation = Math.floor(Math.random()*data.config.destructableVariations);
+
+            let d = new Destructable(data.config.destructableCode, data.point.x, data.point.y, GetLocationZ(Location(data.point.x, data.point.y)), 0, 1, randomVariation);
+            d.setAnim('birth');
+            //For the trees
+            SetTerrainType(data.point.x, data.point.y, TERRAIN_CODE.darkGrass, 0, 2, 0);
+        });
+
+        entities.forEach(entity => {
+            createEntity(entity);
+        });
+
+        destructableTimer.destroy();
+    })
+
+    let dInfoTimer = new Timer().start(7, false, () => {
+        print("Number of entities: ", entities.length);
+        print("Number of destructables and doodads: ", destructableTasks.length);
+        // print("Number of entities: ", entities.length);
+        dInfoTimer.destroy();
+    })
 }
+
+let destructableTerrainClusterPoints = [];
 
 function clearDestructableInRegion(){
     new Timer().start(8, false, () => {
 
 
         // print("Prepping to enum  destructables...");
-        let rec = new Rectangle(0,0,15000,15000);
+        let rec = new Rectangle(GetCameraBoundMinX(),GetCameraBoundMinY(),GetCameraBoundMaxX(),GetCameraBoundMaxY());
 
         rec.enumDestructables(() => {
             // print("In filter")
@@ -101,61 +216,84 @@ function clearDestructableInRegion(){
             return true;
         }, () => {
             // print("In action")
-            const d = GetEnumDestructable();
+            let _d = GetEnumDestructable();
             // Destructable.fromHandle(d).destroy();
+            let d  = Destructable.fromHandle(_d);
+            // SetDestructablez
+            d.destroy();
         })
     
     });
 }
 
 function generateEntityType(){
-    let randomChoiceNumber = Math.floor(Math.random()*10);
+    let randomChoiceNumber = (Math.random());
+    // let randomChoiceNumber = Math.floor(Math.random()*10);
 
     let entity:GeneratedEntity = {
         origin: new Point(0,0),
         tileBoundRadius: 0,
         tileSetId: 0,
         treeSetId: 0,
-        type: 'Town'
+        type: 'Town',
+        destructableSetId: 0
     }
 
- 
+    /**
+     * Based on these chances, create an algorithm that creates a random number and weighs it against these chances for each type, then decide.
+     */
+    const typeChances = {
+        'Town': 0.7,
+        'Landmark': 0.1,
+        'Shop': 0.1,
+        'Terrain Feature': 0.1,
+    }
 
-    if(randomChoiceNumber >= 5){
+    /**
+     * @todo maybe make it so that the destructable and tile set id's are able to choose sets that are outside of the entity type, for the scenario where I like the sets from another entity type but the only way to use those sets would be to
+     * duplicate them into the current entity type's set, which goes against DRY 
+     */
+    if(randomChoiceNumber < typeChances.Town){
         entity = {
             origin: new Point(Math.cos(180*Math.random())*16000, Math.cos(180*Math.random())*16000),
             type: 'Town',
             tileBoundRadius: 18,
             tileSetId: Math.floor(Math.random()*Object.keys(tileSets['Town']).length),
-            treeSetId: 0
+            treeSetId: 0,
+            destructableSetId: 0
         } 
     }
-    else if(randomChoiceNumber > 8){
+    else if(randomChoiceNumber >= typeChances.Town && randomChoiceNumber < (typeChances.Town + typeChances.Landmark)){
         entity = {
             origin: new Point(Math.cos(180*Math.random())*16000, Math.cos(180*Math.random())*16000),
             type: 'Landmark',
             tileBoundRadius: 5,
             tileSetId: Math.floor(Math.random()*Object.keys(tileSets['Landmark']).length),
-            treeSetId: 0
+            treeSetId: 0,
+            destructableSetId: 0
         } 
     }
-    else if(randomChoiceNumber < 5){
+    else if(randomChoiceNumber >= (typeChances.Town + typeChances.Landmark) && randomChoiceNumber < (typeChances.Town + typeChances.Landmark +  typeChances['Terrain Feature'])){
         entity = {
             origin: new Point(Math.cos(180*Math.random())*16000, Math.cos(180*Math.random())*16000),
             type: 'Terrain Feature',
             tileBoundRadius: 30,
             tileSetId: Math.floor(Math.random()*Object.keys(tileSets['Terrain Feature']).length),
-            treeSetId: 0
+            treeSetId: 0,
+            destructableSetId: 0
         } 
     }
-
-    entity = {
-        origin: new Point(Math.cos(180*Math.random())*16000, Math.cos(180*Math.random())*16000),
-        type: 'Terrain Feature',
-        tileBoundRadius: 30,
-        tileSetId: Math.floor(Math.random()*Object.keys(tileSets['Terrain Feature']).length),
-        treeSetId: 0
-    } 
+   
+    else if(randomChoiceNumber >= (typeChances.Town + typeChances.Landmark +  typeChances['Terrain Feature'])){
+        entity = {
+            origin: new Point(Math.cos(180*Math.random())*16000, Math.cos(180*Math.random())*16000),
+            type: 'Shop',
+            tileBoundRadius: 3,
+            tileSetId: Math.floor(Math.random()*Object.keys(tileSets['Shop']).length),
+            treeSetId: 0,
+            destructableSetId: 0
+        } 
+    }
 
     return entity;
 }
@@ -166,47 +304,32 @@ function createEntity(entity: GeneratedEntity){
     switch (entity.type) {
         case 'Town':
             createdEntity = new Unit(Players[9], chooseRandomEnumValue(BUILDING_IDS), entity.origin.x, entity.origin.y, Math.random()*360);
-            createdEntity.name = generateRandomName({town: true});
+            createdEntity.name = generateRandomName(entity.type);
+
+            for (let x = 0; x < 1; x++) {
+                new Unit(Players[9], UNIT_IDS.footman, (entity.origin.x + 300 - 100*x), (entity.origin.y + 300 + 100*x), 0)
+                new Unit(Players[9], UNIT_IDS.rifleman, (entity.origin.x - 300 + 100*x), (entity.origin.y - 300 - 100*x), 0)
+            }
             break;
         case 'Landmark':
             createdEntity = new Unit(Players[9], chooseRandomEnumValue(LANDMARK_IDS), entity.origin.x, entity.origin.y, -90);
-            createdEntity.name = generateRandomName({landmark: true});
+            createdEntity.name = generateRandomName(entity.type);
+            break;
+        case 'Shop':
+            createdEntity = new Unit(Players[9], chooseRandomEnumValue(SHOP_UIDS), entity.origin.x, entity.origin.y, Math.random()*360);
+            createdEntity.name = generateRandomName(entity.type);
             break;
         default:
             break;
     }
 
-    // if(!createdEntity) print("Thing was not assigned!");
-
-    for (let x = 0; x < 1; x++) {
-        new Unit(Players[9], UNIT_IDS.footman, (entity.origin.x + 300 - 100*x), (entity.origin.y + 300 + 100*x), 0)
-        new Unit(Players[9], UNIT_IDS.rifleman, (entity.origin.x - 300 + 100*x), (entity.origin.y - 300 - 100*x), 0)
-    }
+    // if(!createdEntity) print("Entity unassigned!");
     
-    for (let x = 0; x < 5; x++) {
-        createTreeCluster(entity.origin);
-    }
-
-    /**
-     * @testing maybe more performant?
-     */
-    // let tileSetVariantMap = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-
-    // tileSetVariantMap.forEach((variantNumber) => {
-    //     variantNumber = returnDiminishingChoice(18);
-    //     print("Variant number: ", variantNumber);
-    // });
-
-    // print("Created tile variant map for entity: ", ...tileSetVariantMap);
-
-
     //Create tiles from each tile config; String interpolation
     tileSets[`${entity.type}`][entity.tileSetId].forEach((tileConfig: TileConfig) => {
         //Give the origin for the tileset creation
         tileConfig.clusterConfig.originLoc = entity.origin;
         
-
-
         for (let x = 0; x < tileConfig.pointClusterCount; x++) {
             let points = createPointCluster_Simple(tileConfig.clusterConfig);
             
@@ -214,33 +337,7 @@ function createEntity(entity: GeneratedEntity){
 
             points.forEach(point => {
                 let randomTileVariant = returnDiminishingChoice(TERRAIN_VARIANCES[tileConfig.terrainCode]);
-                
-                /**
-                 * @testing maybe more performant?
-                 */
-                // let randomTileVariant = tileSetVariantMap[Math.floor(Math.random()*TERRAIN_VARIANCES[tileConfig.terrainCode])];
 
-
-                //Make the lower numbered variants more common, and others less common , otherwise it looks fucking weird in game. 
-                // 75% change
-                //Distribute the chance over 18 variants, 
-                //variant number
-                /**
-                 * variant number n = 0
-                 * selection chance is 100% - 1/(n + 1) 25% total chance
-                 * as n increases, the chance for selection decreases
-                 */
-
-                // let randomTileVariance  = Math.floor(Math.random()*TERRAIN_VARIANCES[tileConfig.terrainCode]);
-                
-                // if(randomTileVariant === previousVariant){
-                //     print(`Current:${randomTileVariant} is same as previous ${previousVariant}`);
-
-                //     do {
-                //         randomTileVariant = Math.floor(Math.random()*5);
-                //     } while (randomTileVariant === previousVariant);
-                // }
-                
                 previousVariant = randomTileVariant;
 
                 SetTerrainType(point.x, point.y, tileConfig.terrainCode, randomTileVariant , tileConfig.tileArea ?? 1, 0);
@@ -253,38 +350,40 @@ function createEntity(entity: GeneratedEntity){
      */
 }
 
-function createTreeCluster(origin: Point, treeType?: string, ){
+// let destructableTasks = [];
 
-    treePointClusterConfig.originLoc = origin;
+function createDestructableCluster(config: DestructableConfig){
 
-    let points = createPointCluster_Simple(treePointClusterConfig);
+    let points = createPointCluster_Simple(config.clusterConfig);
 
-    TerrainDeformCrater(points[0].x, points[0].y, 400, -(100 + Math.random()*150), 5, true);
+    // TerrainDeformCrater(points[0].x, points[0].y, 400, -(100 + Math.random()*150), 5, true);
 
     points.forEach(point => {
         //Start a timer to get accurate unit z location after terrain deformations
         let t = new Timer().start(1,false, () => {
-            //Accurately place tree height with unit z location
-            let d = new Destructable(DESTRUCTABLE_ID.summerTree, point.x, point.y, GetLocationZ(Location(point.x, point.y)), 0, 1, 0);
+
+            let randomVariation = Math.floor(Math.random()*config.destructableVariations);
+
+            let d = new Destructable(config.destructableCode, point.x, point.y, GetLocationZ(Location(point.x, point.y)), 0, 1, randomVariation);
+            
             t.destroy();
+
             d.setAnim('birth');
-            let m = CreateMinimapIcon(d.x, d.y, 255, 255, 0, 'Abilities\Spells\Human\Thunderclap\ThunderClapCaster.mdl', FOG_OF_WAR_VISIBLE);
-            SetMinimapIconVisible(m, true);
+
         });
 
         SetTerrainType(point.x, point.y, TERRAIN_CODE.darkGrass, 0, 2, 0);
     });
 }
-
+            // let m = CreateMinimapIcon(d.x, d.y, 255, 255, config.destructableVariations, 'Abilities\Spells\Human\Thunderclap\ThunderClapCaster.mdl', FOG_OF_WAR_VISIBLE);
+            // SetMinimapIconVisible(m, true);
 /**
  * very slow algorithm
  * @param numberOfChoices 
  * @returns 
  */
 function returnDiminishingChoice(numberOfChoices: number){
-    if(numberOfChoices < 5) return 0;
-    // print("Number of choices:", numberOfChoices);
-    //Random number [0, numberOfChoices], inclusive
+    if(numberOfChoices < 3) return 0;
 
     //The greatest the chance will be for a number item to be picked
     let maximumSuccessChance = 0.75*numberOfChoices; 
@@ -292,6 +391,8 @@ function returnDiminishingChoice(numberOfChoices: number){
     for (let x = 0; x < numberOfChoices; x++) {
         // The selected range keeps getting smaller as you reach the higher variance numbers which means its harder for those numbers to get chosen
         let selectedRange = maximumSuccessChance/(x + 1);
+
+        //Random number [0, numberOfChoices], inclusive
         //Recalculate the random number every loop so there is a chance for other variants to be chosen
         let randNumber = Math.random()*numberOfChoices;
             

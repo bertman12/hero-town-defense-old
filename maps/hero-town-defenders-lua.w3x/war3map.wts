@@ -235,9 +235,6 @@ Endless War
 
 STRING 51
 {
-
-
-
 Powered by TriggerHappy Wc3-Typescript
 }
 
@@ -262,5 +259,29 @@ STRING 55
 // Units: h009 (Landmark HeroicStatue Shield), Name (Name)
 {
 Landmark HeroicStatue Shield
+}
+
+STRING 56
+// Destructibles: B002 (origin spawn), Name (Name)
+{
+origin spawn
+}
+
+STRING 57
+// Destructibles: B003 (attempted origin), Name (Name)
+{
+attempted origin
+}
+
+STRING 58
+// Destructibles: B004 (rocks), Name (Name)
+{
+rocks
+}
+
+STRING 59
+// Destructibles: B000 (flowers), Name (Name)
+{
+flowers
 }
 

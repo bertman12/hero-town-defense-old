@@ -1,14 +1,7 @@
-import { DESTRUCTABLE_ID } from './enums';
-import { Destructable, File, FogModifier, Group, Point, Timer, TimerDialog, Trigger, Unit, Widget, Handle, Effect, MapPlayer, Region, Rectangle, Color } from "w3ts";
+import { File, Point, Trigger, Unit, MapPlayer } from "w3ts";
 import { Players } from "w3ts/globals";
-import { OrderId } from "w3ts/globals/order";
-import { addScriptHook, W3TS_HOOK } from "w3ts/hooks";
-import { UNIT_IDS, ZOMBIE_MUTATION_ID, SHRIFT_ABILITIES, PLAYER_HERO_ID, CUSTOM_UID, BUILDING_IDS, TERRAIN_CODE } from "enums";
-import { PointClusterConfig } from "models";
-import { createPointCluster_Simple } from "utils/points";
-import { TILE_WIDTH, treePointClusterConfig, numWorldlyEntities } from "gameConstants";
-import { generateRandomName } from 'utils/names';
-import { generateWorld } from 'dynamicCreation';
+import { CUSTOM_UID } from "enums";
+
 
 export let userPlayers = 0;
 
@@ -38,7 +31,6 @@ let townSpawn = new Point(7150, -2150);
 
 let townSpawnPoints:Point[] = [townSpawn];
 
-
 export function initializePlayers(){
     SetCinematicCameraForPlayer(Players[0].handle, '');
 
@@ -57,9 +49,7 @@ export function initializePlayers(){
 
     print("Camera X bound",GetCameraBoundMaxX())
     print("Camera Y bound",GetCameraBoundMaxY())
-    
-   
-    generateWorld();
+    // generateWorld();
 }
 
 //MOve camera too

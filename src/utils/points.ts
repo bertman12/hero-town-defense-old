@@ -214,7 +214,7 @@ export function createPointCluster_Simple(options: PointClusterConfig, originSto
         
         validPoints.push(new Point(entity_X, entity_Y));
     }
-
+    
     return validPoints;
 }
 
