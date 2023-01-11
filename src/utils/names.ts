@@ -50,7 +50,7 @@ const nouns = [
 ]
 
 const townSuffixes = [
-    'Town',
+    // 'Town', - Not very warcrafty
     'Village',
     'Sanctuary',
     'Borough'
@@ -62,7 +62,8 @@ const landmarkPrefixes = [
     'General ',
     'King ',
     'Prince ',
-    'Martyr '
+    'The Great '
+    // 'Martyr '
 ]
 
 const names = [
@@ -72,23 +73,23 @@ const names = [
     'Garithos',
     'Kel Thuzzad',
     'Naix',
+    'Hadarox',
+    'Pirius',
+    'Luminous',
+    'Hyperion',
+    'Triton',
+    'Quel Thas',
+    'C\'Thun',
 ]
 
 /**
  * Randomly combines adjective + noun, noun + noun, adjective + adjective
  */
 export function generateRandomName(nameType){
-    // let prefix = getRandAdjective();
-    // let suffix = getRandNoun();
     let name = ''
 
-    // if(Math.random()*10 < 5){
-    //     name = getRandNoun() + getRandNoun();
-    // }
-
     if(nameType.town){
-        // name += ` ${townSuffixes[Math.floor(Math.random()*townSuffixes.length)]}`
-        name = getRandomNameFromSet(adjectives) + getRandomNameFromSet(nouns) + getRandomNameFromSet(townSuffixes);
+        name = getRandomNameFromSet(adjectives) + getRandomNameFromSet(nouns) + ' ' + getRandomNameFromSet(townSuffixes);
     }
 
     if(nameType.landmark){
@@ -100,12 +101,4 @@ export function generateRandomName(nameType){
 
 function getRandomNameFromSet(set: string[]){
     return set[Math.floor(Math.random()*set.length)];
-}
-
-function getRandAdjective(){
-    return adjectives[Math.floor(Math.random()*adjectives.length)];
-}
-
-function getRandNoun(){
-    return nouns[Math.floor(Math.random()*nouns.length)];
 }

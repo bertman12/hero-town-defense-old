@@ -5,7 +5,7 @@ Player 1
 
 STRING 3
 {
-Hero Town Defenders
+Endless War
 }
 
 STRING 4
@@ -228,9 +228,39 @@ STRING 48
 PositionalTarget
 }
 
-STRING 49
-// Units: h006 (Heroic Statue), Name (Name)
+STRING 50
 {
-Heroic Statue
+Endless War
+}
+
+STRING 51
+{
+
+
+
+Powered by TriggerHappy Wc3-Typescript
+}
+
+STRING 52
+{
+Author: Bnet:JediMindTrix - Hive:NihilismIsDeath
+}
+
+STRING 53
+// Units: h006 (Landmark Heroic Statue), Name (Name)
+{
+Landmark Heroic Statue
+}
+
+STRING 54
+// Units: h008 (Landmark The Keeper), Name (Name)
+{
+Landmark The Keeper
+}
+
+STRING 55
+// Units: h009 (Landmark HeroicStatue Shield), Name (Name)
+{
+Landmark HeroicStatue Shield
 }
 

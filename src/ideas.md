@@ -44,3 +44,19 @@ Or perhaps have AI handle this portion, however , human controlled will always b
 
 
 
+Items -
+    Staff of the Banished Lord - Allows casting aoe banish.
+
+
+
+
+
+
+
+
+
+
+
+
+
+

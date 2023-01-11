@@ -1,7 +1,7 @@
 import { TERRAIN_CODE, DESTRUCTABLE_ID } from '../enums';
 import { PointClusterConfig } from 'models';
 import { Destructable, Point } from 'w3ts';
-import { TILE_WIDTH } from '../constants';
+import { TILE_WIDTH } from '../gameConstants';
 
 
 /**
@@ -174,7 +174,7 @@ export function createPointCluster_Simple(options: PointClusterConfig, originSto
     let {originLoc, minTileDistanceFromOrigin: minDistanceTiles, maxTileDistanceTiles: maxDistanceTiles, numberOfPoints: amount} = options;
 
     //The furthest a tree will spawn from the center of the cluster origin.
-    const maxDistanceFromClusterOrigin = TILE_WIDTH*3;
+    const maxDistanceFromClusterOrigin = TILE_WIDTH*(options.maxTileDistanceFromClusterOrigin ? options.maxTileDistanceFromClusterOrigin : 3);
 
     let xDirection = createDirection();
     let yDirection = createDirection();

@@ -49,8 +49,8 @@ function tsMain() {
  */
 
 function mapStart(){
-  // let clearFogState = new FogModifier(Players[0], FOG_OF_WAR_VISIBLE, 0,0, 25000, true, true)
-  // clearFogState.start();
+  let clearFogState = new FogModifier(Players[0], FOG_OF_WAR_VISIBLE, 0,0, 25000, true, true)
+  clearFogState.start();
 
   setupAbilityTriggers();
   initializePlayers();

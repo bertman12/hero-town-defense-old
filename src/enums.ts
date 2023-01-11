@@ -23,8 +23,20 @@ export enum UNIT_IDS {
 
 export enum BUILDING_IDS {
     townHall = FourCC('h004'),
+    castle = FourCC('h003'),
+    keep = FourCC('h007'),
     orcFortress = FourCC('ofrt'),
-    heroicStatue = FourCC('h006')
+    orcGreatHall = FourCC('ogre'),
+    orcStrongHold = FourCC('ostr'),
+    orcBarracks = FourCC('obar'),
+    humanBarracks = FourCC('hbar'),
+    arcaneObservatory = FourCC('haro'),
+}
+
+export enum LANDMARK_IDS {
+    heroicStatue = FourCC('h006'),
+    heroicStatueShield = FourCC('h009'),
+    theKeeper = FourCC('h008'),
 }
 
 export enum SHRIFT_ABILITIES {
@@ -74,6 +86,18 @@ export enum DESTRUCTABLE_ID {
     volcano = FourCC('Volc'),
     outlandTreeWall = FourCC('OTtw'),
 }
+
+export const TERRAIN_VARIANCES = {
+    1281651316 : 18,
+    1281847923 : 18,
+    1281847908 : 18,
+    1281651303 : 18,
+    1281651311 : 18,
+    1282568043 : 18,
+    1449357936 : 18,
+    1450407024 : 2,
+    1449353840 : 2,
+} 
 
 /**
  * 

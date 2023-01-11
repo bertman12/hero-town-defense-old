@@ -6,7 +6,7 @@ import { addScriptHook, W3TS_HOOK } from "w3ts/hooks";
 import { UNIT_IDS, ZOMBIE_MUTATION_ID, SHRIFT_ABILITIES, PLAYER_HERO_ID, CUSTOM_UID, BUILDING_IDS, TERRAIN_CODE } from "enums";
 import { PointClusterConfig } from "models";
 import { createPointCluster_Simple } from "utils/points";
-import { TILE_WIDTH, treePointClusterConfig, numWorldlyEntities } from "constants";
+import { TILE_WIDTH, treePointClusterConfig, numWorldlyEntities } from "gameConstants";
 import { generateRandomName } from 'utils/names';
 import { generateWorld } from 'dynamicCreation';
 
