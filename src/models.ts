@@ -113,33 +113,6 @@ export interface DestructableConfig {
     pointClusterCount: number,
 }
 
-export interface DoodadConfig {
-        /**
-         * Id number that associates with this tile configuration
-         */
-        tileConfigId: number,
-        /**
-         * Tile terrain code
-         */
-        terrainCode: number,
-        /**
-         * Different style for tile
-         */
-        tileVariations?: number,
-        /**
-         * Describes area the tile spawns in and the number of spawn points
-         */
-        clusterConfig: PointClusterConfig,
-        /**
-         * The number of time this tile cluster will be created
-         */
-        pointClusterCount: number,
-        /**
-         * Options, default is 1
-         */
-        tileArea?: number
-}
-
 export interface UnitConfig {
     unitConfigId: number,
     unitCode: number,

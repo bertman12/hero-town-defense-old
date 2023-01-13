@@ -2,7 +2,6 @@ import { File, Point, Trigger, Unit, MapPlayer } from "w3ts";
 import { Players } from "w3ts/globals";
 import { CUSTOM_UID } from "enums";
 
-
 export let userPlayers = 0;
 
 export const userPlayerIndexes = [];
@@ -17,23 +16,9 @@ const attackerSpawnCoords = {
     y: -16850
 }
 
-const attackerHeroStartCoords = {
-    x: 0,
-    y: 0
-}
-
-const defenderHeroStartCoords = {
-    x: 0,
-    y: 0
-}
-
-let townSpawn = new Point(7150, -2150);
-
-let townSpawnPoints:Point[] = [townSpawn];
-
 export function initializePlayers(){
     SetCinematicCameraForPlayer(Players[0].handle, '');
-
+    trig_controlTown();
     Players.forEach((player, playerIndex) => {
         if(player.slotState === PLAYER_SLOT_STATE_PLAYING && player.isPlayerAlly(Players[0]) && (player.controller === MAP_CONTROL_USER)){
             print(`Player ${player.name} is playing and is red's ally!`);
@@ -46,13 +31,9 @@ export function initializePlayers(){
             }
         }
     });
-
-    print("Camera X bound",GetCameraBoundMaxX())
-    print("Camera Y bound",GetCameraBoundMaxY())
-    // generateWorld();
 }
 
-//MOve camera too
+//Move camera too
 function trig_moveTrainedHeroToStartLoc(player: MapPlayer){
     let trigger = new Trigger()
 
@@ -98,42 +79,28 @@ function handleAttackerInitialization(player: MapPlayer, playerIndex: number){
     let soul = new Unit(player, CUSTOM_UID.soul, attackerSpawnCoords.x, attackerSpawnCoords.y, 0);
 }
 
-function printTerrainTypes(){
-    //DIRT: 1281651316
-    const startNumber = 1281651316;
-    let terrainNumber = GetTerrainType(7100, 1500)
-    print("Dirt terrain number: ", terrainNumber);
-
-    let dataString = '';
-
-    for (let x = 0; x < 10; x++) {
-        // SetTerrainType(7100 + 260*x, 1500, 0, 0, 300, 0)
-        let terrainNumber = GetTerrainType(7100 + 260*x, 1500)
-        print(`Terrain ${x} number:`, terrainNumber);
-        dataString += `Terrain ${x} number:, ${terrainNumber}`
-        // Write to the file
-    }
-    // Terrain
-
-    File.write("terrainCodes_test.txt", dataString);
-}
-
 /**
- * Checks if the terrain region is buildable
  * 
  */
-function checkTerrainRegion(squareTileArea, originLoc: Point){
-    if((Math.sqrt(squareTileArea) % 1) > 0){
-        print(`Invalid square tile area: ${squareTileArea}`);
-    }
-    print(`Remainder of sqrt ${squareTileArea} : `,(Math.sqrt(squareTileArea) % 1));
+function trig_controlTown(){
+    let t = new Trigger();
+    t.registerAnyUnitEvent(EVENT_PLAYER_UNIT_ATTACKED);
+    t.addCondition(() => {
+        
+        //Works
+        let u = Unit.fromHandle(GetAttackedUnitBJ());
+        let a = Unit.fromHandle(GetAttacker());
 
-    //3135 3265    130units wide? -> 1 tile
-    //I have a building that consume 4x4 tiles
+        if(u.isUnitType(UNIT_TYPE_STRUCTURE) && u.isUnitType(UNIT_TYPE_TOWNHALL) && u.life < (0.15*u.maxLife)){
+            // print("Structure has low health: " , u.name);
+            u.setOwner(a.owner, true);
+            u.life = u.maxLife;
+        }
 
-    /**
-     * Then I need to check the center spawn position - 2tiles left(260units  + 130 safety) and the same for the right, top , and bottom
-     */
-
-
+        return true;
+    })
 }
+
+
+
+

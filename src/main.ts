@@ -2,13 +2,14 @@ import { Destructable, File, FogModifier, Group, Point, Timer, TimerDialog, Trig
 import { Players } from "w3ts/globals";
 import { OrderId } from "w3ts/globals/order";
 import { addScriptHook, W3TS_HOOK } from "w3ts/hooks";
-import { UNIT_IDS, ZOMBIE_MUTATION_ID, SHRIFT_ABILITIES, DESTRUCTABLE_ID } from "enums";
+import { UNIT_IDS, ZOMBIE_MUTATION_ID, SHRIFT_ABILITIES, DESTRUCTABLE_ID, TERRAIN_CODE } from "enums";
 import { setupAbilityTriggers } from "abilities";
 import { initAttackerForces } from "enemies";
 import { initializePlayers } from "players";
 import { initEconomy } from "economy";
 import { playStartMusic } from "music";
 import { generateWorld } from "dynamicCreation";
+import { printTerrainTypes } from "utils/terrain";
  
 const BUILD_DATE = compiletime(() => new Date().toUTCString());
 const TS_VERSION = compiletime(() => require("typescript").version);
@@ -35,14 +36,22 @@ function tsMain() {
   //   print(index);
   //   let d = new Destructable(DESTRUCTABLE_ID.testRock, 0, 0, 800, 0, 5, index);
   // })
-  
+
+  // InitAI();
+  // SetMeleeAI();
+
   try {
     let startTimer = new Timer();
-    
+    SetDefaultDifficulty(MAP_DIFFICULTY_INSANE);
+
     print("The Good Lord Gaben said let there be light, and there was light!");
+    
+    // printTerrainTypes();
+
 
     startTimer.start(1, false, mapStart)
 
+    // SetBlightRadiusLocBJ(true, Players[0].handle, Location(0,0), 500)
   } catch (error) {
     print(`An error occurred: ${error}`);
   }
@@ -56,20 +65,27 @@ function tsMain() {
  */
 
 function mapStart(){
-  let clearFogState = new FogModifier(Players[0], FOG_OF_WAR_VISIBLE, 0,0, 25000, true, true)
-  clearFogState.start();
+  StopMusic(false);
 
-  const buttonFrame = new Frame("Button Test", Frame.fromOrigin(ORIGIN_FRAME_GAME_UI, 0), 0, 0, "GLUEBUTTON", "");
-  buttonFrame.setVisible(true);
+  let clearFogState = new FogModifier(Players[0], FOG_OF_WAR_VISIBLE, 0,0, 25000, true, true)
+  DisplayCineFilterBJ(true);
+  clearFogState.start();
+  clearFogState.destroy();
+  SetTimeOfDay(10);
+  // const buttonFrame = new Frame("Button Test", Frame.fromOrigin(ORIGIN_FRAME_GAME_UI, 0), 0, 0, "GLUEBUTTON", "");
+  // buttonFrame.setVisible(true);
+
   // BlzCreateFrame("Test", )
 
   setupAbilityTriggers();
   initializePlayers();
   initEconomy();
-  // initAttackerForces();
-  playStartMusic();
   generateWorld();
+  playStartMusic();
 
+  new Timer().start(20, false, initAttackerForces);
+
+  // initAttackerForces();
   // Players[12].setState(PLAYER_STATE_GIVES_BOUNTY, 1);
   // Players[12].name = 'Zombie Forces';
 }

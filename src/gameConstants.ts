@@ -28,7 +28,7 @@ export const numWorldlyEntities = 150;
 export const destructableTypes = { 
     flower: {
         code: FourCC('B000'),
-        variations: 5
+        variations: 5,
     },
     rock: {
         code: FourCC('B004'),
@@ -37,7 +37,25 @@ export const destructableTypes = {
     summerTree: {
         code: FourCC('LTlt'),
         variations: 10
+    },
+    shrubs: {
+        code: DESTRUCTABLE_ID.shrubs,
+        variations: 3
     }
+}
+
+const basicShrubConfig: DestructableConfig = {
+    destructableConfigId: 0,
+    destructableCode: destructableTypes.shrubs.code,
+    destructableVariations: destructableTypes.shrubs.variations,
+    destructableScale: 1,
+    clusterConfig : {
+        numberOfPoints: 5,
+        minTileDistanceFromOrigin: 2,
+        maxTileDistanceTiles: 6,
+        originLoc: DEFAULT_ORIGIN
+    },
+    pointClusterCount: 3,
 }
 
 /**
@@ -55,7 +73,7 @@ export const tileSets:{[key:string]:{[key:string]: TileConfig[]}} = {
                 clusterConfig: {
                     minTileDistanceFromOrigin: 1,
                     maxTileDistanceTiles:5,
-                    numberOfPoints: 20,
+                    numberOfPoints: 30,
                     originLoc: DEFAULT_ORIGIN
                 },
                 //The number of time this tile cluster will be created
@@ -68,7 +86,7 @@ export const tileSets:{[key:string]:{[key:string]: TileConfig[]}} = {
                 clusterConfig: {
                     minTileDistanceFromOrigin: 5,
                     maxTileDistanceTiles:15,
-                    numberOfPoints: 20,
+                    numberOfPoints: 30,
                     originLoc: DEFAULT_ORIGIN
                 },
                 //The number of time this tile cluster will be created
@@ -138,7 +156,7 @@ export const tileSets:{[key:string]:{[key:string]: TileConfig[]}} = {
                 clusterConfig: {
                     minTileDistanceFromOrigin: 1,
                     maxTileDistanceTiles:5,
-                    numberOfPoints: 20,
+                    numberOfPoints: 30,
                     originLoc: DEFAULT_ORIGIN
                 },
                 //The number of time this tile cluster will be created
@@ -151,7 +169,7 @@ export const tileSets:{[key:string]:{[key:string]: TileConfig[]}} = {
                 clusterConfig: {
                     minTileDistanceFromOrigin: 5,
                     maxTileDistanceTiles:15,
-                    numberOfPoints: 20,
+                    numberOfPoints: 30,
                     originLoc: DEFAULT_ORIGIN
                 },
                 //The number of time this tile cluster will be created
@@ -208,7 +226,7 @@ export const tileSets:{[key:string]:{[key:string]: TileConfig[]}} = {
                 clusterConfig: {
                     minTileDistanceFromOrigin: 1,
                     maxTileDistanceTiles:5,
-                    numberOfPoints: 20,
+                    numberOfPoints: 30,
                     originLoc: DEFAULT_ORIGIN
                 },
                 //The number of time this tile cluster will be created
@@ -221,7 +239,7 @@ export const tileSets:{[key:string]:{[key:string]: TileConfig[]}} = {
                 clusterConfig: {
                     minTileDistanceFromOrigin: 5,
                     maxTileDistanceTiles:15,
-                    numberOfPoints: 20,
+                    numberOfPoints: 30,
                     originLoc: DEFAULT_ORIGIN
                 },
                 //The number of time this tile cluster will be created
@@ -262,7 +280,7 @@ export const tileSets:{[key:string]:{[key:string]: TileConfig[]}} = {
                 clusterConfig: {
                     minTileDistanceFromOrigin: 1,
                     maxTileDistanceTiles:5,
-                    numberOfPoints: 20,
+                    numberOfPoints: 30,
                     originLoc: DEFAULT_ORIGIN
                 },
                 //The number of time this tile cluster will be created
@@ -564,7 +582,8 @@ export const destructableSets:{[key:string]:{[key:string]: DestructableConfig[]}
                     originLoc: DEFAULT_ORIGIN
                 },
                 pointClusterCount: 2,
-            }
+            },
+            basicShrubConfig
         ]
     },
     Landmark: {
@@ -594,7 +613,8 @@ export const destructableSets:{[key:string]:{[key:string]: DestructableConfig[]}
                     originLoc: DEFAULT_ORIGIN
                 },
                 pointClusterCount: 2,
-            }
+            },
+            basicShrubConfig
         ]
     },
     'Terrain Feature': {
@@ -684,3 +704,4 @@ export const destructableSets:{[key:string]:{[key:string]: DestructableConfig[]}
         ]
     }
 }
+

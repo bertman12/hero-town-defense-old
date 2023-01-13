@@ -5,7 +5,7 @@ Player 1
 
 STRING 3
 {
-Hero Town Defenders
+Endless War
 }
 
 STRING 4
@@ -138,51 +138,6 @@ STRING 31
 Player 6
 }
 
-STRING 32
-{
-Player 7
-}
-
-STRING 33
-{
-Player 8
-}
-
-STRING 34
-{
-Player 9
-}
-
-STRING 35
-{
-Defender Forces
-}
-
-STRING 36
-{
-Player 11
-}
-
-STRING 37
-{
-Player 12
-}
-
-STRING 38
-{
-Player 69
-}
-
-STRING 39
-{
-Attacker Forces
-}
-
-STRING 40
-{
-Creeps
-}
-
 STRING 41
 {
 Defenders
@@ -220,5 +175,126 @@ STRING 47
 // Units: U001 (Demonic Flame Keeper), Name (Name)
 {
 Demonic Flame Keeper
+}
+
+STRING 48
+// Units: h005 (PositionalTarget), Name (Name)
+{
+PositionalTarget
+}
+
+STRING 51
+{
+Author: 
+    Battlenet: JediMindTrix#11419
+    Hive: NihilismIsDeath
+
+
+
+
+
+Powered by TriggerHappy Wc3-Typescript SDK
+}
+
+STRING 52
+{
+Endless War - Dev Version
+}
+
+STRING 53
+// Units: h006 (Landmark Heroic Statue), Name (Name)
+{
+Landmark Heroic Statue
+}
+
+STRING 54
+// Units: h008 (Landmark The Keeper), Name (Name)
+{
+Landmark The Keeper
+}
+
+STRING 55
+// Units: h009 (Landmark HeroicStatue Shield), Name (Name)
+{
+Landmark HeroicStatue Shield
+}
+
+STRING 56
+// Destructibles: B002 (origin spawn), Name (Name)
+{
+origin spawn
+}
+
+STRING 57
+// Destructibles: B003 (attempted origin), Name (Name)
+{
+attempted origin
+}
+
+STRING 58
+// Destructibles: B004 (rocks), Name (Name)
+{
+rocks
+}
+
+STRING 59
+// Destructibles: B000 (flowers), Name (Name)
+{
+flowers
+}
+
+STRING 60
+{
+Procedurally Created Map
+}
+
+STRING 61
+// Units: O000 (Demon Seer), Name (Name)
+{
+Demon Seer
+}
+
+STRING 63
+{
+Creep Force 1
+}
+
+STRING 65
+{
+Local Inhabitants
+}
+
+STRING 66
+{
+Raider Forces
+}
+
+STRING 67
+{
+Druidic Healers of the Lands
+}
+
+STRING 68
+// Destructibles: B001 (shrubs), Name (Name)
+{
+shrubs
+}
+
+STRING 69
+// Units: H001 (The Glutton), Tip (Tooltip - Basic)
+{
+Summon The Glutton
+}
+
+STRING 70
+// Units: H001 (The Glutton), Awakentip (Tooltip - Awaken)
+{
+Revive The Glutton
+}
+
+STRING 71
+// Units: H001 (The Glutton), Revivetip (Tooltip - Revive)
+{
+Revive The Glutton
 }
 

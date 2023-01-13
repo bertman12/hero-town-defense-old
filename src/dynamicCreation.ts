@@ -21,7 +21,7 @@ let entitySpawnOriginPoints:Point[] = [initialEntitySpawn];
 /**
  * Track all entities during creation.
  */
-const entities: GeneratedEntity[] = [];
+export const entities: GeneratedEntity[] = [];
 
 /**
  * All destructables will be added after all terrain deformations
@@ -117,7 +117,7 @@ export function generateWorld(){
         });
     }
 
-    let tInfoTimer = new Timer().start(7, false, () => {
+    let tInfoTimer = new Timer().start(2, false, () => {
         print("Creating hills...");
         tInfoTimer.destroy();
     })
@@ -163,14 +163,10 @@ export function generateWorld(){
 
     let dPrepTimer = new Timer().start(7, false, () => {
         print("Creating Destructables and Doodads and Units... prepare for some lag!");
-        print("Number of entities: ", entities.length);
-        print("Number of destructables and doodads: ", destructableTasks.length);
-        // print("Number of entities: ", entities.length);
         dPrepTimer.destroy();
     })
 
     let destructableTimer = new Timer().start(10, false, () => {
-
 
         //We are creating destructables at the predefined points now
         destructableTasks.forEach((data: {point: Point, config: DestructableConfig}) => {
@@ -191,44 +187,18 @@ export function generateWorld(){
         destructableTimer.destroy();
     })
 
-    let dInfoTimer = new Timer().start(7, false, () => {
+    let dInfoTimer = new Timer().start(15, false, () => {
         print("Number of entities: ", entities.length);
         print("Number of destructables and doodads: ", destructableTasks.length);
-        // print("Number of entities: ", entities.length);
         dInfoTimer.destroy();
     })
 }
 
-let destructableTerrainClusterPoints = [];
-
-function clearDestructableInRegion(){
-    new Timer().start(8, false, () => {
 
 
-        // print("Prepping to enum  destructables...");
-        let rec = new Rectangle(GetCameraBoundMinX(),GetCameraBoundMinY(),GetCameraBoundMaxX(),GetCameraBoundMaxY());
-
-        rec.enumDestructables(() => {
-            // print("In filter")
-            const d = GetFilterDestructable();
-            // print('Filter Destructable: ', d);
-            
-            return true;
-        }, () => {
-            // print("In action")
-            let _d = GetEnumDestructable();
-            // Destructable.fromHandle(d).destroy();
-            let d  = Destructable.fromHandle(_d);
-            // SetDestructablez
-            d.destroy();
-        })
-    
-    });
-}
 
 function generateEntityType(){
     let randomChoiceNumber = (Math.random());
-    // let randomChoiceNumber = Math.floor(Math.random()*10);
 
     let entity:GeneratedEntity = {
         origin: new Point(0,0),
@@ -243,10 +213,10 @@ function generateEntityType(){
      * Based on these chances, create an algorithm that creates a random number and weighs it against these chances for each type, then decide.
      */
     const typeChances = {
-        'Town': 0.7,
-        'Landmark': 0.1,
-        'Shop': 0.1,
-        'Terrain Feature': 0.1,
+        'Town': 0.5,
+        'Landmark': 0.15,
+        'Shop': 0.05,
+        'Terrain Feature': 0.3,
     }
 
     /**
@@ -318,6 +288,10 @@ function createEntity(entity: GeneratedEntity){
         case 'Shop':
             createdEntity = new Unit(Players[9], chooseRandomEnumValue(SHOP_UIDS), entity.origin.x, entity.origin.y, Math.random()*360);
             createdEntity.name = generateRandomName(entity.type);
+
+            let m = CreateMinimapIcon(entity.origin.x, entity.origin.y, 255, 255, 255, 'UI\Minimap\MiniMap-NeutralBuilding.mdl', FOG_OF_WAR_VISIBLE);
+            // SetMinimapIconVisible(m, true);
+
             break;
         default:
             break;
@@ -375,10 +349,9 @@ function createDestructableCluster(config: DestructableConfig){
         SetTerrainType(point.x, point.y, TERRAIN_CODE.darkGrass, 0, 2, 0);
     });
 }
-            // let m = CreateMinimapIcon(d.x, d.y, 255, 255, config.destructableVariations, 'Abilities\Spells\Human\Thunderclap\ThunderClapCaster.mdl', FOG_OF_WAR_VISIBLE);
-            // SetMinimapIconVisible(m, true);
+
 /**
- * very slow algorithm
+ * costly algorithm - use wisely
  * @param numberOfChoices 
  * @returns 
  */
@@ -418,13 +391,6 @@ function returnDiminishingChoice(numberOfChoices: number){
     //4 -> 3.6 number has to be less than 3.6
     //17 -> 1.05 number has to be less than 1.05
     //Goal
-
-    // 1/(randNumber + x)
-    // let selectedRange = 100 * (1/(x + 1)) 
-    
-    // numberOfChoices/(x + 1)
-
-    // let choiceNumber = 1/(randNumber);
     
     //The closer to 0 the greater the chance of selection
     // 13.75 75% chance for the first tile variant to be picked

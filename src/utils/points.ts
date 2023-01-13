@@ -176,8 +176,8 @@ export function createPointCluster_Simple(options: PointClusterConfig, originSto
     //The furthest a tree will spawn from the center of the cluster origin.
     const maxDistanceFromClusterOrigin = TILE_WIDTH*(options.maxTileDistanceFromClusterOrigin ? options.maxTileDistanceFromClusterOrigin : 3);
 
-    let xDirection = createDirection();
-    let yDirection = createDirection();
+    let xDirection = getRandomScalarDirection();
+    let yDirection = getRandomScalarDirection();
     
     const clusterOrigin = {
         x: originLoc.x + xDirection*minDistanceTiles*TILE_WIDTH*Math.random() + xDirection*maxDistanceTiles*TILE_WIDTH*Math.random(),
@@ -186,9 +186,9 @@ export function createPointCluster_Simple(options: PointClusterConfig, originSto
 
     while(((clusterOrigin.x - originLoc.x)*(clusterOrigin.x - originLoc.x) + (clusterOrigin.y - originLoc.y)*(clusterOrigin.y - originLoc.y) < (minDistanceTiles*TILE_WIDTH)*(minDistanceTiles*TILE_WIDTH))){
         // print("Redo cluster origin");
-        xDirection = createDirection();
+        xDirection = getRandomScalarDirection();
         clusterOrigin.x = originLoc.x + xDirection*minDistanceTiles*TILE_WIDTH*Math.random() + xDirection*maxDistanceTiles*TILE_WIDTH*Math.random();
-        yDirection = createDirection();
+        yDirection = getRandomScalarDirection();
         clusterOrigin.y = originLoc.y + yDirection*minDistanceTiles*TILE_WIDTH*Math.random() + yDirection*maxDistanceTiles*TILE_WIDTH*Math.random();
     }
 
@@ -197,18 +197,18 @@ export function createPointCluster_Simple(options: PointClusterConfig, originSto
     //Creates valid spawn points for an entity, given the set constraints from the options
     for (let x = 0; x < amount; x++) {
         // [-1, 1]
-        let entity_XDir = createDirection();
+        let entity_XDir = getRandomScalarDirection();
         // [-1, 1]
-        let entity_YDir = createDirection();
+        let entity_YDir = getRandomScalarDirection();
         
         let entity_X = entity_XDir*Math.random()*maxDistanceFromClusterOrigin + clusterOrigin.x;
         let entity_Y = entity_YDir*Math.random()*maxDistanceFromClusterOrigin + clusterOrigin.y;
         
         while(((entity_X - originLoc.x)*(entity_X - originLoc.x) + (entity_Y - originLoc.y)*(entity_Y - originLoc.y) < (minDistanceTiles*TILE_WIDTH)*(minDistanceTiles*TILE_WIDTH))){
             // print("Redo point loc");
-            entity_XDir = createDirection();
+            entity_XDir = getRandomScalarDirection();
             entity_X = entity_XDir*Math.random()*maxDistanceFromClusterOrigin + clusterOrigin.x;
-            entity_YDir = createDirection();
+            entity_YDir = getRandomScalarDirection();
             entity_Y = entity_YDir*Math.random()*maxDistanceFromClusterOrigin + clusterOrigin.y;
         }
         
@@ -222,10 +222,27 @@ export function createPointCluster_Simple(options: PointClusterConfig, originSto
  * Returns -1, or 1 , mostly 50/50 chance to get either number
  * @returns 
  */
-function createDirection(){
+export function getRandomScalarDirection(){
     let value = Math.cos(Math.random()*180);
     if(value > 0) value = 1;
     if(value <= 0) value = -1;
-
+    
     return value;
+    // -1, 0, 1 - undesirable return values
+    // return GetRandomInt(-1,1);
 }
+
+export function getRandomPointInMap(){
+    let xDir = getRandomScalarDirection();
+    let yDir = getRandomScalarDirection();
+    
+    let x = xDir*Math.random()*GetCameraBoundMaxX();
+    let y = yDir*Math.random()*GetCameraBoundMaxY();
+
+    let p = new Point(x,y);
+
+    // print(`Random point: X:${p.x} Y:${p.y}`)
+    return p;
+}
+
+

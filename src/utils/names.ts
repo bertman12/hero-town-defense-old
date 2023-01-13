@@ -15,7 +15,7 @@ const adjectives = [
     'Virtuous',
     'Sorrow',
     'Vengeance',
-    'Lust',
+    // 'Lust',
     'Hate',
     'Rage',
     'Pure',
@@ -87,6 +87,7 @@ const names = [
     'Triton',
     'Quel Thas',
     'C\'Thun',
+    'Sarevok'
 ]
 
 /**
@@ -106,6 +107,10 @@ export function generateRandomName(nameType: EntityType, other?: any){
 
     if(nameType === 'Shop'){
         name = getRandomNameFromSet(shopNames);
+    }
+    
+    if(nameType === 'Unit'){
+        name = getRandomNameFromSet(names);
     }
 
     return name;

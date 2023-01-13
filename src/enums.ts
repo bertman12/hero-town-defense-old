@@ -13,12 +13,18 @@ export enum UNIT_IDS {
     rifleman = FourCC('hrif'),
     footman = FourCC('hfoo'),
     sapper = FourCC('ngsp'),
-    // paladin = FourCC('Hpal'),
+    paladin = FourCC('Hpal'),
 
     zombie = FourCC('n000'),
     abomination = FourCC('u000'),
+    demonSeer = FourCC('O000'),
+    banditLord = FourCC('nbld'),
+    bandit = FourCC('nban'),
+    banditAssassin = FourCC('nass'),
+    banditBrigand = FourCC('nbrg'),
     // customPaladin = FourCC('H000'),
     // theGlutton = FourCC('H001'),
+
 }
 
 export enum BUILDING_IDS {
@@ -76,8 +82,19 @@ export enum TERRAIN_CODE {
     //Village Tileset - 14 prefix
     stonePath = 1450407024,
     cobblePath = 1449353840,
-    crops = 1449357936
+    crops = 1449357936,
+    //Nope
+    // blightMaybe = 12816513,
+    // blight_ = 1282568043
 }
+/**
+ *  "Terrain 0 number:, 1281651316Terrain 1 number:, 1282568043Terrain 2 number:, 1281651311Terrain 3 number:, 1281651311Terrain 4 number:, 1281651311Terrain 5 number:, 1281651316Terrain 6 number:, 1281651316Terrain 7 number:, 1281651316Terrain 8 number:, 12816513" )
+	call Preload( "16Terrain 9 number:, 1281651316"
+ * 
+ * 
+ * 
+ * 
+ */
 
 export enum SHAPE_CODE {
     circle = 0,
@@ -99,6 +116,7 @@ export enum DESTRUCTABLE_ID {
 
     rock = FourCC('B004'),
     flowers = FourCC('B000'),
+    shrubs = FourCC('B001'),
     // testRock = FourCC('B001'),
 }
 

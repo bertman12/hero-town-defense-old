@@ -3,6 +3,10 @@ import { Players } from "w3ts/globals";
 import { OrderId } from "w3ts/globals/order";
 import { addScriptHook, W3TS_HOOK } from "w3ts/hooks";
 import { UNIT_IDS, ZOMBIE_MUTATION_ID, SHRIFT_ABILITIES } from "enums";
+import { entities } from "dynamicCreation";
+import { checkDestructablesInRegion } from "utils/terrain";
+import { spawnDemonSeer } from "events/demonSeer";
+import { spawnRaiders } from "events/raiders";
 
 /**
  * Player 21 = Attacker forces.
@@ -15,7 +19,15 @@ let waveCount = 0;
 let waveTag:TextTag = null;
 
 export function initAttackerForces(){
-    spawnEnemyForce();
+    print("Attacker forces imminent!");
+
+    spawnDemonSeer();
+
+    spawnRaiders();
+    spawnRaiders();
+    spawnRaiders();
+
+    // spawnEnemyForce();
     // let waveTimer = new Timer();
     // waveTimer.start(30, true, handleSpawnEnemyWave);
 }
@@ -34,6 +46,7 @@ function handleSpawnEnemyWave(){
     
     print(`Incoming wave ${waveCount}`);
     waveCount++;
+    
 }
 
 function spawnEnemy(unitId: number){

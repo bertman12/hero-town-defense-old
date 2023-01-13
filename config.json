@@ -1,5 +1,5 @@
 {
-  "mapFolder": "hero-town-defenders-lua.w3x",
+  "mapFolder": "endless-war-dev-lua-ts.w3x",
   "minifyScript": false,
   "gameExecutable": "C:\\Program Files\\Warcraft III\\_retail_\\x86_64\\Warcraft III.exe",
   "outputFolder": "./dist/bin",
