@@ -16,7 +16,7 @@ export const TILE_WIDTH = 130;
 export const treePointClusterConfig: PointClusterConfig = {
     numberOfPoints: 10,
     minTileDistanceFromOrigin: 5,
-    maxTileDistanceTiles: 10,
+    maxTileDistanceFromOrigin: 10,
     originLoc: new Point(testSpawn.x, testSpawn.y)
 }
 
@@ -52,7 +52,7 @@ const basicShrubConfig: DestructableConfig = {
     clusterConfig : {
         numberOfPoints: 5,
         minTileDistanceFromOrigin: 2,
-        maxTileDistanceTiles: 6,
+        maxTileDistanceFromOrigin: 6,
         originLoc: DEFAULT_ORIGIN
     },
     pointClusterCount: 3,
@@ -72,7 +72,7 @@ export const tileSets:{[key:string]:{[key:string]: TileConfig[]}} = {
                 tileVariations: 0,
                 clusterConfig: {
                     minTileDistanceFromOrigin: 1,
-                    maxTileDistanceTiles:5,
+                    maxTileDistanceFromOrigin:5,
                     numberOfPoints: 30,
                     originLoc: DEFAULT_ORIGIN
                 },
@@ -85,7 +85,7 @@ export const tileSets:{[key:string]:{[key:string]: TileConfig[]}} = {
                 tileVariations: 0,
                 clusterConfig: {
                     minTileDistanceFromOrigin: 5,
-                    maxTileDistanceTiles:15,
+                    maxTileDistanceFromOrigin:15,
                     numberOfPoints: 30,
                     originLoc: DEFAULT_ORIGIN
                 },
@@ -98,7 +98,7 @@ export const tileSets:{[key:string]:{[key:string]: TileConfig[]}} = {
                 tileVariations: 0,
                 clusterConfig: {
                     minTileDistanceFromOrigin: 1,
-                    maxTileDistanceTiles:5,
+                    maxTileDistanceFromOrigin:5,
                     numberOfPoints: 20,
                     originLoc: DEFAULT_ORIGIN
                 },
@@ -111,7 +111,7 @@ export const tileSets:{[key:string]:{[key:string]: TileConfig[]}} = {
                 tileVariations: 0,
                 clusterConfig: {
                     minTileDistanceFromOrigin: 1,
-                    maxTileDistanceTiles:5,
+                    maxTileDistanceFromOrigin:5,
                     numberOfPoints: 20,
                     originLoc: DEFAULT_ORIGIN
                 },
@@ -124,7 +124,7 @@ export const tileSets:{[key:string]:{[key:string]: TileConfig[]}} = {
                 tileVariations: 0,
                 clusterConfig: {
                     minTileDistanceFromOrigin: 0,
-                    maxTileDistanceTiles:2,
+                    maxTileDistanceFromOrigin:2,
                     numberOfPoints: 20,
                     originLoc: DEFAULT_ORIGIN
                 },
@@ -137,7 +137,7 @@ export const tileSets:{[key:string]:{[key:string]: TileConfig[]}} = {
                 tileVariations: 0,
                 clusterConfig: {
                     minTileDistanceFromOrigin: 4,
-                    maxTileDistanceTiles:5,
+                    maxTileDistanceFromOrigin:5,
                     numberOfPoints: 3,
                     originLoc: DEFAULT_ORIGIN
                 },
@@ -155,7 +155,7 @@ export const tileSets:{[key:string]:{[key:string]: TileConfig[]}} = {
                 tileVariations: 0,
                 clusterConfig: {
                     minTileDistanceFromOrigin: 1,
-                    maxTileDistanceTiles:5,
+                    maxTileDistanceFromOrigin:5,
                     numberOfPoints: 30,
                     originLoc: DEFAULT_ORIGIN
                 },
@@ -168,7 +168,7 @@ export const tileSets:{[key:string]:{[key:string]: TileConfig[]}} = {
                 tileVariations: 0,
                 clusterConfig: {
                     minTileDistanceFromOrigin: 5,
-                    maxTileDistanceTiles:15,
+                    maxTileDistanceFromOrigin:15,
                     numberOfPoints: 30,
                     originLoc: DEFAULT_ORIGIN
                 },
@@ -181,7 +181,7 @@ export const tileSets:{[key:string]:{[key:string]: TileConfig[]}} = {
                 tileVariations: 0,
                 clusterConfig: {
                     minTileDistanceFromOrigin: 1,
-                    maxTileDistanceTiles:5,
+                    maxTileDistanceFromOrigin:5,
                     numberOfPoints: 20,
                     originLoc: DEFAULT_ORIGIN
                 },
@@ -194,7 +194,7 @@ export const tileSets:{[key:string]:{[key:string]: TileConfig[]}} = {
                 tileVariations: 0,
                 clusterConfig: {
                     minTileDistanceFromOrigin: 1,
-                    maxTileDistanceTiles:5,
+                    maxTileDistanceFromOrigin:5,
                     numberOfPoints: 20,
                     originLoc: DEFAULT_ORIGIN
                 },
@@ -207,7 +207,7 @@ export const tileSets:{[key:string]:{[key:string]: TileConfig[]}} = {
                 tileVariations: 0,
                 clusterConfig: {
                     minTileDistanceFromOrigin: 4,
-                    maxTileDistanceTiles:5,
+                    maxTileDistanceFromOrigin:5,
                     numberOfPoints: 3,
                     originLoc: DEFAULT_ORIGIN
                 },
@@ -225,7 +225,7 @@ export const tileSets:{[key:string]:{[key:string]: TileConfig[]}} = {
                 tileVariations: 0,
                 clusterConfig: {
                     minTileDistanceFromOrigin: 1,
-                    maxTileDistanceTiles:5,
+                    maxTileDistanceFromOrigin:5,
                     numberOfPoints: 30,
                     originLoc: DEFAULT_ORIGIN
                 },
@@ -238,7 +238,7 @@ export const tileSets:{[key:string]:{[key:string]: TileConfig[]}} = {
                 tileVariations: 0,
                 clusterConfig: {
                     minTileDistanceFromOrigin: 5,
-                    maxTileDistanceTiles:15,
+                    maxTileDistanceFromOrigin:15,
                     numberOfPoints: 30,
                     originLoc: DEFAULT_ORIGIN
                 },
@@ -251,7 +251,7 @@ export const tileSets:{[key:string]:{[key:string]: TileConfig[]}} = {
                 tileVariations: 0,
                 clusterConfig: {
                     minTileDistanceFromOrigin: 1,
-                    maxTileDistanceTiles:5,
+                    maxTileDistanceFromOrigin:5,
                     numberOfPoints: 20,
                     originLoc: DEFAULT_ORIGIN
                 },
@@ -264,7 +264,7 @@ export const tileSets:{[key:string]:{[key:string]: TileConfig[]}} = {
                 tileVariations: 0,
                 clusterConfig: {
                     minTileDistanceFromOrigin: 1,
-                    maxTileDistanceTiles:5,
+                    maxTileDistanceFromOrigin:5,
                     numberOfPoints: 20,
                     originLoc: DEFAULT_ORIGIN
                 },
@@ -279,7 +279,7 @@ export const tileSets:{[key:string]:{[key:string]: TileConfig[]}} = {
                 tileVariations: 0,
                 clusterConfig: {
                     minTileDistanceFromOrigin: 1,
-                    maxTileDistanceTiles:5,
+                    maxTileDistanceFromOrigin:5,
                     numberOfPoints: 30,
                     originLoc: DEFAULT_ORIGIN
                 },
@@ -292,7 +292,7 @@ export const tileSets:{[key:string]:{[key:string]: TileConfig[]}} = {
                 tileVariations: 0,
                 clusterConfig: {
                     minTileDistanceFromOrigin: 5,
-                    maxTileDistanceTiles:15,
+                    maxTileDistanceFromOrigin:15,
                     numberOfPoints: 20,
                     originLoc: DEFAULT_ORIGIN
                 },
@@ -305,7 +305,7 @@ export const tileSets:{[key:string]:{[key:string]: TileConfig[]}} = {
                 tileVariations: 0,
                 clusterConfig: {
                     minTileDistanceFromOrigin: 1,
-                    maxTileDistanceTiles:5,
+                    maxTileDistanceFromOrigin:5,
                     numberOfPoints: 20,
                     originLoc: DEFAULT_ORIGIN
                 },
@@ -318,7 +318,7 @@ export const tileSets:{[key:string]:{[key:string]: TileConfig[]}} = {
                 tileVariations: 0,
                 clusterConfig: {
                     minTileDistanceFromOrigin: 1,
-                    maxTileDistanceTiles:5,
+                    maxTileDistanceFromOrigin:5,
                     numberOfPoints: 20,
                     originLoc: DEFAULT_ORIGIN
                 },
@@ -331,7 +331,7 @@ export const tileSets:{[key:string]:{[key:string]: TileConfig[]}} = {
                 tileVariations: 0,
                 clusterConfig: {
                     minTileDistanceFromOrigin: 0,
-                    maxTileDistanceTiles:2,
+                    maxTileDistanceFromOrigin:2,
                     numberOfPoints: 20,
                     originLoc: DEFAULT_ORIGIN
                 },
@@ -350,7 +350,7 @@ export const tileSets:{[key:string]:{[key:string]: TileConfig[]}} = {
                 tileVariations: 0,
                 clusterConfig: {
                     minTileDistanceFromOrigin: 1,
-                    maxTileDistanceTiles:5,
+                    maxTileDistanceFromOrigin:5,
                     numberOfPoints: 20,
                     originLoc: DEFAULT_ORIGIN
                 },
@@ -363,7 +363,7 @@ export const tileSets:{[key:string]:{[key:string]: TileConfig[]}} = {
                 tileVariations: 0,
                 clusterConfig: {
                     minTileDistanceFromOrigin: 0,
-                    maxTileDistanceTiles:2,
+                    maxTileDistanceFromOrigin:2,
                     numberOfPoints: 20,
                     originLoc: DEFAULT_ORIGIN
                 },
@@ -379,7 +379,7 @@ export const tileSets:{[key:string]:{[key:string]: TileConfig[]}} = {
                 tileVariations: 0,
                 clusterConfig: {
                     minTileDistanceFromOrigin: 1,
-                    maxTileDistanceTiles:5,
+                    maxTileDistanceFromOrigin:5,
                     numberOfPoints: 20,
                     originLoc: DEFAULT_ORIGIN
                 },
@@ -392,7 +392,7 @@ export const tileSets:{[key:string]:{[key:string]: TileConfig[]}} = {
                 tileVariations: 0,
                 clusterConfig: {
                     minTileDistanceFromOrigin: 0,
-                    maxTileDistanceTiles:2,
+                    maxTileDistanceFromOrigin:2,
                     numberOfPoints: 20,
                     originLoc: DEFAULT_ORIGIN
                 },
@@ -408,7 +408,7 @@ export const tileSets:{[key:string]:{[key:string]: TileConfig[]}} = {
                 tileVariations: 0,
                 clusterConfig: {
                     minTileDistanceFromOrigin: 1,
-                    maxTileDistanceTiles:5,
+                    maxTileDistanceFromOrigin:5,
                     numberOfPoints: 20,
                     originLoc: DEFAULT_ORIGIN
                 },
@@ -426,7 +426,7 @@ export const tileSets:{[key:string]:{[key:string]: TileConfig[]}} = {
                 tileVariations: 0,
                 clusterConfig: {
                     minTileDistanceFromOrigin: 0,
-                    maxTileDistanceTiles:26,
+                    maxTileDistanceFromOrigin:26,
                     numberOfPoints: 50,
                     originLoc: DEFAULT_ORIGIN
                 },
@@ -440,7 +440,7 @@ export const tileSets:{[key:string]:{[key:string]: TileConfig[]}} = {
                 tileVariations: 0,
                 clusterConfig: {
                     minTileDistanceFromOrigin: 0,
-                    maxTileDistanceTiles:26,
+                    maxTileDistanceFromOrigin:26,
                     numberOfPoints: 30,
                     originLoc: DEFAULT_ORIGIN
                 },
@@ -454,7 +454,7 @@ export const tileSets:{[key:string]:{[key:string]: TileConfig[]}} = {
                 tileVariations: 0,
                 clusterConfig: {
                     minTileDistanceFromOrigin: 0,
-                    maxTileDistanceTiles:26,
+                    maxTileDistanceFromOrigin:26,
                     numberOfPoints: 15,
                     originLoc: DEFAULT_ORIGIN
                 },
@@ -467,7 +467,7 @@ export const tileSets:{[key:string]:{[key:string]: TileConfig[]}} = {
                 tileVariations: 0,
                 clusterConfig: {
                     minTileDistanceFromOrigin: 0,
-                    maxTileDistanceTiles:26,
+                    maxTileDistanceFromOrigin:26,
                     numberOfPoints: 15,
                     originLoc: DEFAULT_ORIGIN
                 },
@@ -484,7 +484,7 @@ export const tileSets:{[key:string]:{[key:string]: TileConfig[]}} = {
                 tileVariations: 0,
                 clusterConfig: {
                     minTileDistanceFromOrigin: 1,
-                    maxTileDistanceTiles:5,
+                    maxTileDistanceFromOrigin:5,
                     numberOfPoints: 20,
                     originLoc: DEFAULT_ORIGIN
                 },
@@ -497,7 +497,7 @@ export const tileSets:{[key:string]:{[key:string]: TileConfig[]}} = {
                 tileVariations: 0,
                 clusterConfig: {
                     minTileDistanceFromOrigin: 0,
-                    maxTileDistanceTiles:2,
+                    maxTileDistanceFromOrigin:2,
                     numberOfPoints: 20,
                     originLoc: DEFAULT_ORIGIN
                 },
@@ -513,7 +513,7 @@ export const tileSets:{[key:string]:{[key:string]: TileConfig[]}} = {
                 tileVariations: 0,
                 clusterConfig: {
                     minTileDistanceFromOrigin: 1,
-                    maxTileDistanceTiles:5,
+                    maxTileDistanceFromOrigin:5,
                     numberOfPoints: 20,
                     originLoc: DEFAULT_ORIGIN
                 },
@@ -526,7 +526,7 @@ export const tileSets:{[key:string]:{[key:string]: TileConfig[]}} = {
                 tileVariations: 0,
                 clusterConfig: {
                     minTileDistanceFromOrigin: 0,
-                    maxTileDistanceTiles:2,
+                    maxTileDistanceFromOrigin:2,
                     numberOfPoints: 20,
                     originLoc: DEFAULT_ORIGIN
                 },
@@ -542,7 +542,7 @@ export const tileSets:{[key:string]:{[key:string]: TileConfig[]}} = {
                 tileVariations: 0,
                 clusterConfig: {
                     minTileDistanceFromOrigin: 1,
-                    maxTileDistanceTiles:5,
+                    maxTileDistanceFromOrigin:5,
                     numberOfPoints: 20,
                     originLoc: DEFAULT_ORIGIN
                 },
@@ -565,7 +565,7 @@ export const destructableSets:{[key:string]:{[key:string]: DestructableConfig[]}
                 clusterConfig : {
                     numberOfPoints: 10,
                     minTileDistanceFromOrigin: 5,
-                    maxTileDistanceTiles: 10,
+                    maxTileDistanceFromOrigin: 10,
                     originLoc: DEFAULT_ORIGIN
                 },
                 pointClusterCount: 5,
@@ -578,7 +578,7 @@ export const destructableSets:{[key:string]:{[key:string]: DestructableConfig[]}
                 clusterConfig : {
                     numberOfPoints: 3,
                     minTileDistanceFromOrigin: 0,
-                    maxTileDistanceTiles: 10,
+                    maxTileDistanceFromOrigin: 10,
                     originLoc: DEFAULT_ORIGIN
                 },
                 pointClusterCount: 2,
@@ -596,7 +596,7 @@ export const destructableSets:{[key:string]:{[key:string]: DestructableConfig[]}
                 clusterConfig : {
                     numberOfPoints: 10,
                     minTileDistanceFromOrigin: 5,
-                    maxTileDistanceTiles: 10,
+                    maxTileDistanceFromOrigin: 10,
                     originLoc: DEFAULT_ORIGIN
                 },
                 pointClusterCount: 5,
@@ -609,7 +609,7 @@ export const destructableSets:{[key:string]:{[key:string]: DestructableConfig[]}
                 clusterConfig : {
                     numberOfPoints: 3,
                     minTileDistanceFromOrigin: 0,
-                    maxTileDistanceTiles: 10,
+                    maxTileDistanceFromOrigin: 10,
                     originLoc: DEFAULT_ORIGIN
                 },
                 pointClusterCount: 2,
@@ -627,7 +627,7 @@ export const destructableSets:{[key:string]:{[key:string]: DestructableConfig[]}
                 clusterConfig : {
                     numberOfPoints: 10,
                     minTileDistanceFromOrigin: 5,
-                    maxTileDistanceTiles: 10,
+                    maxTileDistanceFromOrigin: 10,
                     originLoc: DEFAULT_ORIGIN
                 },
                 pointClusterCount: 5,
@@ -640,7 +640,7 @@ export const destructableSets:{[key:string]:{[key:string]: DestructableConfig[]}
                 clusterConfig : {
                     numberOfPoints: 10,
                     minTileDistanceFromOrigin: 0,
-                    maxTileDistanceTiles: 10,
+                    maxTileDistanceFromOrigin: 10,
                     originLoc: DEFAULT_ORIGIN
                 },
                 pointClusterCount: 11,
@@ -653,7 +653,7 @@ export const destructableSets:{[key:string]:{[key:string]: DestructableConfig[]}
                 clusterConfig : {
                     numberOfPoints: 2,
                     minTileDistanceFromOrigin: 0,
-                    maxTileDistanceTiles: 15,
+                    maxTileDistanceFromOrigin: 15,
                     originLoc: DEFAULT_ORIGIN,
                 },
                 pointClusterCount: 4,
@@ -666,7 +666,7 @@ export const destructableSets:{[key:string]:{[key:string]: DestructableConfig[]}
                 clusterConfig : {
                     numberOfPoints: 3,
                     minTileDistanceFromOrigin: 0,
-                    maxTileDistanceTiles: 10,
+                    maxTileDistanceFromOrigin: 10,
                     originLoc: DEFAULT_ORIGIN
                 },
                 pointClusterCount: 20,
@@ -683,7 +683,7 @@ export const destructableSets:{[key:string]:{[key:string]: DestructableConfig[]}
                 clusterConfig : {
                     numberOfPoints: 5,
                     minTileDistanceFromOrigin: 3,
-                    maxTileDistanceTiles: 5,
+                    maxTileDistanceFromOrigin: 5,
                     originLoc: DEFAULT_ORIGIN
                 },
                 pointClusterCount: 2,
@@ -696,7 +696,7 @@ export const destructableSets:{[key:string]:{[key:string]: DestructableConfig[]}
                 clusterConfig : {
                     numberOfPoints: 3,
                     minTileDistanceFromOrigin: 0,
-                    maxTileDistanceTiles: 10,
+                    maxTileDistanceFromOrigin: 10,
                     originLoc: DEFAULT_ORIGIN
                 },
                 pointClusterCount: 1,

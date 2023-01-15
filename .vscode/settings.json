@@ -1,5 +1,10 @@
 {
     "cSpell.words": [
         "Tilesets"
-    ]
+    ],
+    "files.associations": {
+        "iosfwd": "cpp",
+        "fstream": "cpp",
+        "iostream": "cpp"
+    }
 }

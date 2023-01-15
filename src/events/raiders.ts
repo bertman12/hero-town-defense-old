@@ -1,6 +1,6 @@
 import { generateRandomName } from '../utils/names';
 import { UNIT_IDS } from "../enums";
-import { getRandomPointInMap, getRandomScalarDirection } from "../utils/points";
+import { getRandomPointInMap, getRandomDirection } from "../utils/points";
 import { Group, Item, Point, Timer, Unit } from "w3ts";
 import { Players } from "w3ts/globals";
 import { OrderId } from "w3ts/globals/order";
@@ -42,9 +42,17 @@ export function spawnRaiders(){
     
     g.orderPoint(OrderId.Attack, firstAttackPoint);
 
+    print(`Lord ${bl_name} and his raiders are pillaging the lands!`);
     new Timer().start(10 + Math.floor(Math.random()*10) , true, () => {
-        print(`Lord ${bl_name} and his raiders are pillaging the lands!`);
         g.orderPoint(OrderId.Attack, getRandomPointInMap());
     });
+
+}
+
+/**
+ * abstract the spawn enemy function to randomly decide an enemy event config object then use that 
+ * Make function to add random items to an enemy boss 
+ */
+function spawnWanderingCreeps(){
 
 }

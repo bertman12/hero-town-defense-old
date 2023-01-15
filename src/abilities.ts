@@ -42,7 +42,6 @@ function initTheUnbound(){
             // let effect = new Effect('Abilities\Spells\Human\Thunderclap\ThunderClapCaster.mdl', GetSpellTargetX(), GetSpellTargetY());
             // effect.scale = castUnit.getAbilityLevel(SHRIFT_ABILITIES.theUnbound);
             // effect.playAnimation(ANIM_TYPE_SPELL);
-
             return true;    
         })
     });

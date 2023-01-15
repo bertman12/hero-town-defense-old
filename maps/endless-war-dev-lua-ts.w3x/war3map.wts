@@ -298,3 +298,63 @@ STRING 71
 Revive The Glutton
 }
 
+STRING 72
+// Units: h00C (Wall - Horizontal), Name (Name)
+{
+Wall - Horizontal
+}
+
+STRING 73
+// Units: h00C (Wall - Horizontal), Tip (Tooltip - Basic)
+{
+Build Wall - H
+}
+
+STRING 74
+// Units: h00C (Wall - Horizontal), Ubertip (Tooltip - Extended)
+{
+A barrier.
+}
+
+STRING 75
+// Units: h00D (Wall - Vertical), Name (Name)
+{
+Wall - Vertical
+}
+
+STRING 76
+// Units: h00D (Wall - Vertical), Tip (Tooltip - Basic)
+{
+Build Wall - H
+}
+
+STRING 77
+// Units: h00D (Wall - Vertical), Ubertip (Tooltip - Extended)
+{
+A barrier.
+}
+
+STRING 78
+// Items: I001 (Eternal Tango), Name (Name)
+{
+Eternal Tango
+}
+
+STRING 79
+// Items: I001 (Eternal Tango), Description (Description)
+{
+Consume a tree to restore 150 health over 30 seconds.
+}
+
+STRING 80
+// Items: I001 (Eternal Tango), Ubertip (Tooltip - Extended)
+{
+Consume a tree to restore 150 health over 30 seconds.
+}
+
+STRING 81
+// Items: I001 (Eternal Tango), Tip (Tooltip - Basic)
+{
+Purchase Eternal Tango
+}
+

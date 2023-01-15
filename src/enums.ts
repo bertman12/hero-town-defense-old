@@ -39,6 +39,19 @@ export enum BUILDING_IDS {
     arcaneObservatory = FourCC('haro'),
 }
 
+
+
+export enum TOWN_UIDS {
+    townHall = FourCC('h004'),
+    orcGreatHall = FourCC('ogre'),
+}
+
+export enum MINIMAP_ICONS {
+    neutralBuilding = 'UI\Minimap\MiniMap-NeutralBuilding.mdl',
+    unit = 'UI\MiniMap\MiniMapIcon\MiniMapUnitIcon.mdl',
+    controlPoint = 'UI\Minimap\MiniMap-ControlPoint.mdl'
+}
+
 export enum LANDMARK_IDS {
     heroicStatue = FourCC('h006'),
     heroicStatueShield = FourCC('h009'),
@@ -47,6 +60,11 @@ export enum LANDMARK_IDS {
 
 export enum SHOP_UIDS {
     shop1 = FourCC('n002'),
+    mercenaryCampLordaeron = FourCC('nmer'),
+}
+
+export enum Ability_IDS {
+    scry = FourCC('AHta')
 }
 
 export enum SHRIFT_ABILITIES {
@@ -120,8 +138,6 @@ export enum DESTRUCTABLE_ID {
     // testRock = FourCC('B001'),
 }
 
-
-
 export const TERRAIN_VARIANCES = {
     1281651316 : 18,
     1281847923 : 18,
@@ -133,6 +149,12 @@ export const TERRAIN_VARIANCES = {
     1450407024 : 2,
     1449353840 : 2,
 } 
+
+export enum ITEM_ID{
+    eternalTango = FourCC('I001')
+}
+
+export const capturableUSet = new Set([BUILDING_IDS.townHall, BUILDING_IDS.orcGreatHall, LANDMARK_IDS.heroicStatue, LANDMARK_IDS.heroicStatueShield, LANDMARK_IDS.theKeeper]);
 
 /**
  * 

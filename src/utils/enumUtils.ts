@@ -1,6 +1,4 @@
 
-
-
 /**
  * Returns a random value from an enum Set
  */

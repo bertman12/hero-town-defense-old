@@ -11,9 +11,9 @@ export interface PointClusterConfig {
      */
     minTileDistanceFromOrigin: number, 
     /**
-     * Max distance where points can be created
+     * Max distance where points can be created from the origin point
      */
-    maxTileDistanceTiles: number, 
+    maxTileDistanceFromOrigin: number, 
     /**
      * Number of points to be created
      */

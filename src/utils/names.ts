@@ -21,7 +21,7 @@ const adjectives = [
     'Pure',
     'Mystic',
     'Blight'
-]
+];
 
 const nouns = [
     'Spear',
@@ -47,21 +47,20 @@ const nouns = [
     'Jewel',
     'Armor',
     'Pendant'
-
-]
+];
 
 const townSuffixes = [
     // 'Town', - Not very warcrafty
     'Village',
     'Sanctuary',
     'Borough'
-]
+];
 
 const shopNames = [
     'Shop',
     'Merchant',
     'Trade Post'
-]
+];
 
 const landmarkPrefixes = [
     'The Rise of ',
@@ -71,7 +70,7 @@ const landmarkPrefixes = [
     'Prince ',
     'The Great '
     // 'Martyr '
-]
+];
 
 const names = [
     'Leonidas', 
@@ -88,7 +87,7 @@ const names = [
     'Quel Thas',
     'C\'Thun',
     'Sarevok'
-]
+];
 
 /**
  * Randomly combines adjective + noun, noun + noun, adjective + adjective
