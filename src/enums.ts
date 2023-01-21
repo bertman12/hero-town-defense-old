@@ -22,10 +22,23 @@ export enum UNIT_IDS {
     bandit = FourCC('nban'),
     banditAssassin = FourCC('nass'),
     banditBrigand = FourCC('nbrg'),
+    orcCatapult = FourCC('ocat'),
+    dwarfCart = FourCC('h00E'),
+    peasant = FourCC('h00J'),
+    mason = FourCC('h00I'),
+    villagerLumberjack = FourCC('n009'),
+    villagerElfFemale = FourCC('nhef'),
+    villagerElfMale = FourCC('nhem'),
+
+    treant = FourCC('efon'),
+
+    
     // customPaladin = FourCC('H000'),
-    // theGlutton = FourCC('H001'),
+    theGlutton = FourCC('H001'),
+
 
 }
+
 
 export enum BUILDING_IDS {
     townHall = FourCC('h004'),
@@ -37,8 +50,15 @@ export enum BUILDING_IDS {
     orcBarracks = FourCC('obar'),
     humanBarracks = FourCC('hbar'),
     arcaneObservatory = FourCC('haro'),
+    farm = FourCC('hhou'),
+
 }
 
+export enum START_ITEM_IDS{
+    ringOfDivinity = FourCC("I002"),
+    eternalTango = FourCC("I001"),
+    staffOfWildGrowth = FourCC("I003"),
+}
 
 
 export enum TOWN_UIDS {
@@ -64,7 +84,8 @@ export enum SHOP_UIDS {
 }
 
 export enum Ability_IDS {
-    scry = FourCC('AHta')
+    scry = FourCC('AHta'),
+    curseOfWildGrowth = FourCC('A00D'),
 }
 
 export enum SHRIFT_ABILITIES {
@@ -109,9 +130,6 @@ export enum TERRAIN_CODE {
  *  "Terrain 0 number:, 1281651316Terrain 1 number:, 1282568043Terrain 2 number:, 1281651311Terrain 3 number:, 1281651311Terrain 4 number:, 1281651311Terrain 5 number:, 1281651316Terrain 6 number:, 1281651316Terrain 7 number:, 1281651316Terrain 8 number:, 12816513" )
 	call Preload( "16Terrain 9 number:, 1281651316"
  * 
- * 
- * 
- * 
  */
 
 export enum SHAPE_CODE {
@@ -154,12 +172,58 @@ export enum ITEM_ID{
     eternalTango = FourCC('I001')
 }
 
-export const capturableUSet = new Set([BUILDING_IDS.townHall, BUILDING_IDS.orcGreatHall, LANDMARK_IDS.heroicStatue, LANDMARK_IDS.heroicStatueShield, LANDMARK_IDS.theKeeper]);
+/**
+ * Set of entities that players can capture.
+ */
+export const capturableUSet = new Set([
+    BUILDING_IDS.townHall, 
+    BUILDING_IDS.orcGreatHall, 
+    LANDMARK_IDS.heroicStatue, 
+    LANDMARK_IDS.heroicStatueShield, 
+    LANDMARK_IDS.theKeeper,
+]);
+
+export const economyUnitIncomes = {
+    town: 50,
+    villager: 5
+}
 
 /**
- * 
+ * Used to identify which unit types can provide periodic income and how much they provide per unit
+ */
+export const economyUnitSet = new Set([
+    {
+        code: BUILDING_IDS.townHall,
+        income: economyUnitIncomes.town
+    },
+    {
+        code: UNIT_IDS.villagerElfFemale,
+        income: economyUnitIncomes.villager
+    },
+    {
+        code: UNIT_IDS.villagerElfMale,
+        income: economyUnitIncomes.villager
+    },
+    {
+        code: UNIT_IDS.villagerLumberjack,
+        income: economyUnitIncomes.villager
+    },
+
+]);
+
+export const economyUnitCodes = new Set([BUILDING_IDS.townHall, UNIT_IDS.villagerElfFemale, UNIT_IDS.villagerElfMale, UNIT_IDS.villagerLumberjack])
+
+
+
+
+/**
  * "Terrain 0 number:, 1281651316
  * Terrain 1 number:, 1281847923Terrain 2 number:, 1281847908Terrain 3 number:, 1281651303Terrain 4 number:, 1281651311Terrain 5 number:, 1281651316
  * Terrain 6 number:, 1281651316Terrain 7 number:, 1281651316Terrain 8 number:, 12816513"
  */
-// Object.freeze(ABILITY_SETS);
+
+
+
+
+
+

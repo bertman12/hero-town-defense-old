@@ -1,9 +1,29 @@
 gg_snd_PursuitTheme = ""
+gg_snd_SargerasLaugh = nil
+gg_snd_SargerasRoar = nil
+gg_snd_FrostmourneChant1 = nil
+gg_snd_TheHornOfCenarius = nil
 function InitGlobals()
 end
 
 function InitSounds()
 gg_snd_PursuitTheme = "PursuitTheme"
+gg_snd_SargerasLaugh = CreateSound("Sound/Ambient/DoodadEffects/SargerasLaugh.flac", false, true, true, 0, 0, "DefaultEAXON")
+SetSoundParamsFromLabel(gg_snd_SargerasLaugh, "SargerasLaugh")
+SetSoundDuration(gg_snd_SargerasLaugh, 3326)
+SetSoundVolume(gg_snd_SargerasLaugh, 127)
+gg_snd_SargerasRoar = CreateSound("Sound/Ambient/DoodadEffects/SargerasRoar.flac", false, true, true, 0, 0, "DefaultEAXON")
+SetSoundParamsFromLabel(gg_snd_SargerasRoar, "SargerasRoar")
+SetSoundDuration(gg_snd_SargerasRoar, 4481)
+SetSoundVolume(gg_snd_SargerasRoar, 127)
+gg_snd_FrostmourneChant1 = CreateSound("Sound/Ambient/DoodadEffects/FrostmourneChant1.flac", false, false, false, 0, 0, "DefaultEAXON")
+SetSoundParamsFromLabel(gg_snd_FrostmourneChant1, "FrostmourneChantSound")
+SetSoundDuration(gg_snd_FrostmourneChant1, 5038)
+SetSoundVolume(gg_snd_FrostmourneChant1, 100)
+gg_snd_TheHornOfCenarius = CreateSound("Sound/Ambient/DoodadEffects/TheHornOfCenarius.flac", false, false, false, 0, 0, "DefaultEAXON")
+SetSoundParamsFromLabel(gg_snd_TheHornOfCenarius, "HornOfCenariusSound")
+SetSoundDuration(gg_snd_TheHornOfCenarius, 12120)
+SetSoundVolume(gg_snd_TheHornOfCenarius, 127)
 end
 
 function CreateNeutralPassiveBuildings()
@@ -14,8 +34,6 @@ local t
 local life
 
 u = BlzCreateUnitWithSkin(p, FourCC("n001"), -16000.0, -15680.0, 270.000, FourCC("n001"))
-SetUnitColor(u, ConvertPlayerColor(0))
-u = BlzCreateUnitWithSkin(p, FourCC("n003"), 16192.0, -16448.0, 270.000, FourCC("n003"))
 SetUnitColor(u, ConvertPlayerColor(0))
 end
 

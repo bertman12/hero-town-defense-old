@@ -1,6 +1,9 @@
 import { Point } from "w3ts";
 import { UNIT_IDS, BUILDING_IDS, DESTRUCTABLE_ID, TERRAIN_CODE, CUSTOM_UID } from "enums";
 
+/**
+ * The data model most other procedural interfaces are predicated on.
+ */
 export interface PointClusterConfig {
     /**
      * Points are created relative to the origin point
@@ -24,7 +27,9 @@ export interface PointClusterConfig {
     maxTileDistanceFromClusterOrigin?: number
 }
 
-export type EntityType = 'Town' | 'Landmark' | 'Boss' | 'Unit' | 'Camp' | 'Shop' | 'Terrain Feature';
+export type EntityType  = 'Town' | 'Landmark' | 'Boss' | 'Unit' | 'Camp' | 'Shop' | 'Terrain Feature';
+
+
 
 export interface GeneratedEntity {
     /**
@@ -88,15 +93,15 @@ export interface TileConfig {
 
 export interface DestructableConfig {
     /**
-     * Id number that associates with this tile configuration
+     * Id number that associates with this destructable configuration
      */
     destructableConfigId: number,
-    /**s
-     * Tile terrain code
+    /**
+     * Destructable code
      */
     destructableCode: number,
     /**
-     * Different style for tile
+     * Used for selecting a random and valid variation number for the destructable so they do not all look the same 
      */
     destructableVariations: number,
     /**
@@ -104,14 +109,15 @@ export interface DestructableConfig {
      */
     destructableScale?: number,
     /**
-     * Describes area the tile spawns in and the number of spawn points
+     * Describes area the destructable spawns in and the number of spawn points
      */
     clusterConfig: PointClusterConfig,
     /**
-     * The number of time this tile cluster will be created
+     * The number of clusters to be created
      */
     pointClusterCount: number,
 }
+
 
 export interface UnitConfig {
     unitConfigId: number,
@@ -119,4 +125,3 @@ export interface UnitConfig {
     clusterConfig: PointClusterConfig,
     pointClusterCount: number
 }
-

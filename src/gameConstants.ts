@@ -58,8 +58,25 @@ const basicShrubConfig: DestructableConfig = {
     pointClusterCount: 3,
 }
 
+const townCropConfig_singleSpawn: TileConfig = {
+    tileConfigId: 0,
+    terrainCode: TERRAIN_CODE.crops,
+    tileVariations: 0,
+    clusterConfig: {
+        minTileDistanceFromOrigin: 4,
+        maxTileDistanceFromOrigin: 4,
+        numberOfPoints: 1,
+        originLoc: DEFAULT_ORIGIN
+    },
+    //The number of time this tile cluster will be created
+    pointClusterCount: 1,
+    tileArea: 2
+}
+
 /**
  * Tile sets describe what tile will be used as well as quantity and distance from a point
+ * 
+ * Contains all tile sets for each entity type and the variation of sets for those entity types.
  */
 export const tileSets:{[key:string]:{[key:string]: TileConfig[]}} = {
     //Tile set type
@@ -131,21 +148,7 @@ export const tileSets:{[key:string]:{[key:string]: TileConfig[]}} = {
                 //The number of time this tile cluster will be created
                 pointClusterCount: 3
             },
-            {
-                tileConfigId: 0,
-                terrainCode: TERRAIN_CODE.crops,
-                tileVariations: 0,
-                clusterConfig: {
-                    minTileDistanceFromOrigin: 4,
-                    maxTileDistanceFromOrigin:5,
-                    numberOfPoints: 3,
-                    originLoc: DEFAULT_ORIGIN
-                },
-                //The number of time this tile cluster will be created
-                pointClusterCount: 1,
-                tileArea: 2
-
-            },
+            townCropConfig_singleSpawn,
         ],
         //Tile set variation
         1: [
@@ -201,21 +204,7 @@ export const tileSets:{[key:string]:{[key:string]: TileConfig[]}} = {
                 //The number of time this tile cluster will be created
                 pointClusterCount: 3
             },
-            {
-                tileConfigId: 0,
-                terrainCode: TERRAIN_CODE.crops,
-                tileVariations: 0,
-                clusterConfig: {
-                    minTileDistanceFromOrigin: 4,
-                    maxTileDistanceFromOrigin:5,
-                    numberOfPoints: 3,
-                    originLoc: DEFAULT_ORIGIN
-                },
-                //The number of time this tile cluster will be created
-                pointClusterCount: 1,
-                tileArea: 2
-
-            },
+            townCropConfig_singleSpawn,
         ],
         //Tile set variation
         2: [
@@ -271,6 +260,7 @@ export const tileSets:{[key:string]:{[key:string]: TileConfig[]}} = {
                 //The number of time this tile cluster will be created
                 pointClusterCount: 3
             },
+            townCropConfig_singleSpawn,
         ],
         3: [
             {
@@ -338,6 +328,7 @@ export const tileSets:{[key:string]:{[key:string]: TileConfig[]}} = {
                 //The number of time this tile cluster will be created
                 pointClusterCount: 3
             },
+            townCropConfig_singleSpawn,
         ],
     },
 
@@ -554,6 +545,10 @@ export const tileSets:{[key:string]:{[key:string]: TileConfig[]}} = {
     }
 }
 
+/**
+ * Contains all destructable sets for each entity type and the variation of sets for those entity types.
+ * 
+ */
 export const destructableSets:{[key:string]:{[key:string]: DestructableConfig[]}} = {
     Town: {
         0: [

@@ -1,3 +1,4 @@
+import { DESTRUCTABLE_ID } from "../enums";
 import { Destructable, File, Point, Rectangle, Timer } from "w3ts";
 
 export function printTerrainTypes(){
@@ -37,12 +38,19 @@ function checkTerrainRegion(squareTileArea, originLoc: Point){
      * Then I need to check the center spawn position - 2tiles left(260units  + 130 safety) and the same for the right, top , and bottom
      */
 
-
 }
 
+/**
+ * Util for checking destructables in a region around a point. 
+ * Can optionally destroy the destructables.
+ * @param origin 
+ * @param radius 
+ * @param destroy 
+ */
 export function checkDestructablesInRegion(origin: Point, radius: number, destroy: boolean){
     let rec = new Rectangle(0,0,radius,radius);
-    rec.movePoint(origin)
+
+    rec.movePoint(origin);
 
     rec.enumDestructables(() => {
         const d = GetFilterDestructable();
@@ -55,13 +63,13 @@ export function checkDestructablesInRegion(origin: Point, radius: number, destro
         let _d = GetEnumDestructable();
         // Destructable.fromHandle(d).destroy();
         let d  = Destructable.fromHandle(_d);
-
-        if(destroy){
-            d.destroy()
-            print("Destructable destroyed!")
+        // if(d.typeId === DESTRUCTABLE_ID.summerTree) print("Summer tree detected!");
+        if(destroy && d.typeId === DESTRUCTABLE_ID.summerTree){
+            d.destroy();
+            print("Tree destroyed!")
         }
         else if(d) {
-            print("destructable is in region");
+            // print("destructable is in region");
             return true;
         };
     })

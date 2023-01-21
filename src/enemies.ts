@@ -6,7 +6,7 @@ import { UNIT_IDS, ZOMBIE_MUTATION_ID, SHRIFT_ABILITIES } from "enums";
 import { entities } from "dynamicCreation";
 import { checkDestructablesInRegion } from "utils/terrain";
 import { spawnDemonSeer } from "events/demonSeer";
-import { spawnRaiders } from "events/raiders";
+import { spawnRaiders, spawnWanderingCreeps } from "events/raiders";
 
 /**
  * Player 21 = Attacker forces.
@@ -27,6 +27,11 @@ export function initAttackerForces(){
     spawnRaiders();
     spawnRaiders();
 
+    new Timer().start(15, true, () => {
+      spawnWanderingCreeps();
+    })
+
+    
     // spawnEnemyForce();
     // let waveTimer = new Timer();
     // waveTimer.start(30, true, handleSpawnEnemyWave);
@@ -105,6 +110,6 @@ export function spawnEnemyForce(){
   }
 
   group.orderPoint(OrderId.Attack, new Point(0,0));
-  SetTerrainType(0,0, 0,0,1200,0);
+  // SetTerrainType(0,0, 0,0,1200,0);
 }
 

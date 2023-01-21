@@ -17,7 +17,7 @@ export function spawnDemonSeer(){
           u.color = PLAYER_COLOR_SNOW;
 
           u.issuePointOrder(OrderId.Attack, new Point(Math.cos(180*Math.random())*(GetCameraBoundMaxX() - 400) , Math.cos(180*Math.random())*(GetCameraBoundMaxY() - 400)))
-          print("The Demon Seer is hunting...");
+          // print("The Demon Seer is hunting...");
           
           t.start(20, true, () => {
             u.issuePointOrder(OrderId.Attack, new Point(Math.cos(180*Math.random())*(GetCameraBoundMaxX() - 400) , Math.cos(180*Math.random())*(GetCameraBoundMaxY() - 400)))
@@ -32,3 +32,4 @@ export function spawnDemonSeer(){
         
       }
 }
+

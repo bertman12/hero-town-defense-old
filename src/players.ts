@@ -1,6 +1,6 @@
 import { File, Point, Trigger, Unit, MapPlayer, Camera } from "w3ts";
 import { Players } from "w3ts/globals";
-import { capturableUSet, CUSTOM_UID } from "enums";
+import { BUILDING_IDS, capturableUSet, CUSTOM_UID, TERRAIN_CODE, UNIT_IDS } from "enums";
 import { townsCreated } from "dynamicCreation";
 
 export let userPlayers = 0;
@@ -30,18 +30,21 @@ export function getUsersPlaying(): MapPlayer[]{
 }
 
 export function initializePlayers(){
-
+    //Register Triggers
     trig_controlTown();
+    trig_checkFarmPlacement();
 
+    //Give start resources
     Players.forEach((player, playerIndex) => {
+
+        // SetPlayerUnitAvailableBJ(FourCC('h00J'), false, player.handle);
+        // SetPlayerUnitAvailableBJ(FourCC('h00I'), false, player.handle);
 
         player.setState(PLAYER_STATE_GIVES_BOUNTY, 1);
         
         player.setAlliance(Players[25], ALLIANCE_PASSIVE, true);
 
         if(player.slotState === PLAYER_SLOT_STATE_PLAYING && player.isPlayerAlly(Players[0]) && (player.controller === MAP_CONTROL_USER)){
-            // print(`Player ${player.name} is playing and is red's ally!`);
-
             if(player.team === 0) {
                 handleDefenderInitialization(player, playerIndex);
             }
@@ -75,13 +78,13 @@ function handleDefenderInitialization(player: MapPlayer, playerIndex: number){
 
     userPlayerIndexes.push(playerIndex);
 
-    player.setState(PLAYER_STATE_RESOURCE_GOLD, 500);
+    player.setState(PLAYER_STATE_RESOURCE_GOLD, 1000);
     player.setState(PLAYER_STATE_RESOURCE_LUMBER, 500);
-    player.setState(PLAYER_STATE_RESOURCE_FOOD_CAP, 100);
+    // player.setState(PLAYER_STATE_RESOURCE_FOOD_CAP, 25);
     
-    trig_moveTrainedHeroToStartLoc(player);
+    // trig_moveTrainedHeroToStartLoc(player);
 
-    let soul = new Unit(player, CUSTOM_UID.soul, defenderSpawnCoords.x, defenderSpawnCoords.y, 0);
+    new Unit(player, CUSTOM_UID.soul, defenderSpawnCoords.x, defenderSpawnCoords.y, 0);
 }
 
 function handleAttackerInitialization(player: MapPlayer, playerIndex: number){
@@ -89,11 +92,11 @@ function handleAttackerInitialization(player: MapPlayer, playerIndex: number){
 
     userPlayerIndexes.push(playerIndex);
 
-    player.setState(PLAYER_STATE_RESOURCE_GOLD, 500);
+    player.setState(PLAYER_STATE_RESOURCE_GOLD, 1000);
     player.setState(PLAYER_STATE_RESOURCE_LUMBER, 500);
-    player.setState(PLAYER_STATE_RESOURCE_FOOD_CAP, 100);
+    // player.setState(PLAYER_STATE_RESOURCE_FOOD_CAP, 25);
     
-    trig_moveTrainedHeroToStartLoc(player);
+    // trig_moveTrainedHeroToStartLoc(player);
 
     new Unit(player, CUSTOM_UID.soul, attackerSpawnCoords.x, attackerSpawnCoords.y, 0);
 }
@@ -127,25 +130,58 @@ function trig_controlTown(){
     })
 }
 
-export function givePlayersStartingTown(){
-    let p = getUsersPlaying()
+function trig_checkFarmPlacement(){
+    let t  = new Trigger();
+    t.registerAnyUnitEvent(EVENT_PLAYER_UNIT_CONSTRUCT_START);
     
-    // if(townsCreated) print("VAR: ",townsCreated)
+    t.addCondition(() => {
+        //Get the building being built
+        let u = Unit.fromEvent();
 
-    p.forEach((player, index) => {
+        // print("The unit: ", u.name);
+        //Prints a message as a player.
+        // BlzDisplayChatMessage(u.owner.handle, 0, 'Test');
 
-        // let t = townsCreated[index]
-        // print("Number of towns: ",townsCreated.length);
-        // if(t){
-        //     // t.setOwner(player, true);
-        //     print(`Player ${player.name} just got their first town!`);
+        if(u.typeId === BUILDING_IDS.farm && GetTerrainType(u.x, u.y) === TERRAIN_CODE.crops){
+            return true;
+        }
+        else if(u.typeId === BUILDING_IDS.farm && GetTerrainType(u.x, u.y) != TERRAIN_CODE.crops){
+            let g = GetUnitGoldCost(u.typeId);
+            let w = GetUnitWoodCost(u.typeId);
 
-        // }
-        // else{
-        //     print("Town does not exist!");
-        // }
+            let p = u.owner;
 
+            adjustPlayerGoldAndLumber(p, g, w);
 
-        // Camera.pan(t.x, t.y, 0);
+            print(`Farm must be built on farm land. Refunding ${g} gold and ${w} wood.`);
+            u.destroy();
+        }
+        else if(u.typeId !== BUILDING_IDS.farm && GetTerrainType(u.x, u.y) === TERRAIN_CODE.crops){
+            let g = GetUnitGoldCost(u.typeId);
+            let w = GetUnitWoodCost(u.typeId);
+
+            print(`Unable to build on farm land. Refunding ${g} gold and ${w} wood.`);
+            let p = u.owner;
+            
+            adjustPlayerGoldAndLumber(p, g, w);
+       
+            u.destroy(); 
+        }
+        
+        return false;
     });
+
+}
+
+export function adjustPlayerGoldAndLumber(player:MapPlayer, gold: number, lumber: number){
+    if(player){
+        if(gold) AdjustPlayerStateSimpleBJ(player.handle, PLAYER_STATE_RESOURCE_GOLD, gold);
+        if(lumber) AdjustPlayerStateSimpleBJ(player.handle, PLAYER_STATE_RESOURCE_LUMBER, lumber);
+        // print("Player state adjusted!");
+    }
+    else{
+        print("Cannot add gold/wood for null player!"); 
+    }
+
+    return;
 }

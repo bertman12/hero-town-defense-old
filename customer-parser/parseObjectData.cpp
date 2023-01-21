@@ -7,7 +7,6 @@
 using namespace std;
 
 int main(){
-    
     ifstream reader;
     ofstream readerOut;
     string content;
@@ -17,9 +16,9 @@ int main(){
     //         cout << "FILE NOT OPEN. NOW TERMINATING!";
     //         exit(EXIT_FAILURE);
     //     }
-
-    reader.open("/src/abilities.ts");
     
+    reader.open("/src/abilities.ts");
+
     if (!reader.is_open()){
         cout << "FILE NOT OPEN. NOW TERMINATING!";
         exit(EXIT_FAILURE);

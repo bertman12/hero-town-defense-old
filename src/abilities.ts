@@ -1,10 +1,12 @@
-import { Destructable, File, FogModifier, Group, Point, Timer, TimerDialog, Trigger, Unit, Widget, Handle, Effect } from "w3ts";
+import { Destructable, File, FogModifier, Group, Point, Timer, TimerDialog, Trigger, Unit, Widget, Handle, Effect, Color } from "w3ts";
 import { Players } from "w3ts/globals";
-import { UNIT_IDS, ZOMBIE_MUTATION_ID, SHRIFT_ABILITIES } from "enums";
+import { UNIT_IDS, ZOMBIE_MUTATION_ID, SHRIFT_ABILITIES, Ability_IDS, DESTRUCTABLE_ID } from "enums";
+import { OrderId } from "w3ts/globals/order";
 
 export function setupAbilityTriggers(){
     initTheUnbound();
     initTheGlutton();
+    trig_CurseOfWildGrowth();
 }
 
 function initTheUnbound(){  
@@ -54,8 +56,8 @@ let devouredUnits = 0;
  */
 function initTheGlutton(){
     let trigger = new Trigger()
-
     trigger.registerAnyUnitEvent(EVENT_PLAYER_UNIT_SPELL_EFFECT);
+
     
     trigger.addCondition(() => {
         let castUnit = Unit.fromEvent();
@@ -89,5 +91,70 @@ function initTheGlutton(){
     });
 }
 
+/**
+ * Cast entangle on all units in an area, then spawn a tree on the unit that will kill them instantly.
+ */
+function trig_CurseOfWildGrowth(){
 
+    let t  = new Trigger();
+
+    t.registerAnyUnitEvent(EVENT_PLAYER_UNIT_SPELL_EFFECT);
+
+    t.addCondition(() => {
+        let castUnit = Unit.fromEvent();
+
+        if(GetSpellAbility() === castUnit.getAbility(Ability_IDS.curseOfWildGrowth)){
+            print("Curse of wild growth used!");
+            print("The caster: ",castUnit.name);
+
+            let target = Unit.fromHandle(GetSpellTargetUnit());
+
+            print("Curse target: ",target.name);
+
+            return true;
+        }
+
+        return false;
+    });
+
+    t.addAction(() => {
+        let castUnit = Unit.fromEvent();
+        
+        castUnit.setVertexColor(100, 100, 100, 255);
+        print("Your soul darkens...");
+
+        let target = Unit.fromHandle(GetSpellTargetUnit());
+
+        //Create the tree at target
+        let d = new Destructable(DESTRUCTABLE_ID.summerTree, target.x, target.y, GetLocationZ(Location(target.x, target.y)), 0, 1, 0);
+        
+        d.setAnim('birth');
+
+        //Create blight at target
+        SetBlight(Players[24].handle, target.x, target.y, 260, true);
+
+        let u = new Unit(Players[24], UNIT_IDS.treant, target.x, target.y,0);
+        //Make treant invulnerable
+        u.invulnerable = true;
+        
+        u.setScale(2,0,0);
+
+        u.name = `${new Color(255, 0,0,255).code} Demon Treant|r`;
+
+        u.setVertexColor(50,50,50,125);
+        u.setAttackCooldown(0.2, 0);
+
+        //Play evil laugh because you are evil.
+        PlaySoundOnUnitBJ(gg_snd_SargerasLaugh, 100, castUnit.handle);
+
+        //Make treant attack the unit
+        u.issueTargetOrder(OrderId.Attack, target);
+
+        new Timer().start(6, false, () => {
+            ExplodeUnitBJ(u.handle);
+        })
+
+    });
+
+}
 

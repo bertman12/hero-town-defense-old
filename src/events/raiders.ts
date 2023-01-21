@@ -42,17 +42,46 @@ export function spawnRaiders(){
     
     g.orderPoint(OrderId.Attack, firstAttackPoint);
 
-    print(`Lord ${bl_name} and his raiders are pillaging the lands!`);
-    new Timer().start(10 + Math.floor(Math.random()*10) , true, () => {
+    let randomTimeOffset = Math.floor(Math.random()*10);
+
+    // print(`Lord ${bl_name} and his raiders are pillaging the lands!`);
+    new Timer().start(10 + randomTimeOffset , true, () => {
         g.orderPoint(OrderId.Attack, getRandomPointInMap());
     });
 
 }
 
+const zombieSet_1 = [
+    {
+        creepTypeCode: UNIT_IDS.zombie,
+        count: 15
+    }
+];
+
 /**
  * abstract the spawn enemy function to randomly decide an enemy event config object then use that 
  * Make function to add random items to an enemy boss 
  */
-function spawnWanderingCreeps(){
+export function spawnWanderingCreeps(creepSet?: {creepTypeCode: number, count: number}[]){
+    let spawn = getRandomPointInMap();
+
+    let g = new Group();
+    
+    // print("Zombies spawned!");
+
+    zombieSet_1.forEach(cSet => {
+        for (let x = 0; x < cSet.count; x++) {
+            g.addUnit(new Unit(Players[20], cSet.creepTypeCode, spawn.x, spawn.y, 0))
+        }
+    });
+
+    let firstAttackPoint = getRandomPointInMap();
+    
+    g.orderPoint(OrderId.Attack, firstAttackPoint);
+
+    new Timer().start(10, true, () => {
+        // print("Group size: ",g.size);
+        g.orderPoint(OrderId.Attack, getRandomPointInMap());
+    });
 
 }

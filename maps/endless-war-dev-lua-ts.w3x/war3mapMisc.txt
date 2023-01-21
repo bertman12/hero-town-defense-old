@@ -1,4 +1,7 @@
 [Misc]
 DayLength=600.0
 MaxHeroLevel=30
+MaxUnitLevel=100
+MaxUnitSpeed=522.0
+MinUnitSpeed=100.0
 

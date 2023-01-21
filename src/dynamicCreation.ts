@@ -1,5 +1,5 @@
-import { DestructableConfig, TileConfig } from './models';
-import { ITEM_ID, LANDMARK_IDS, MINIMAP_ICONS, SHOP_UIDS, TERRAIN_VARIANCES, TOWN_UIDS } from './enums';
+import { DestructableConfig, EntityType, TileConfig } from './models';
+import { ITEM_ID, LANDMARK_IDS, MINIMAP_ICONS, SHOP_UIDS, START_ITEM_IDS, TERRAIN_VARIANCES, TOWN_UIDS } from './enums';
 import { destructableSets, numWorldlyEntities, TILE_WIDTH, treePointClusterConfig } from "gameConstants";
 import { BUILDING_IDS, DESTRUCTABLE_ID, TERRAIN_CODE, UNIT_IDS } from "enums";
 import { GeneratedEntity } from "models";
@@ -9,38 +9,42 @@ import { Camera, Destructable, FogModifier, Point, Rectangle, Timer, Unit } from
 import { Players } from "w3ts/globals";
 import { tileSets } from 'gameConstants';
 import { chooseRandomEnumValue } from 'utils/enumUtils';
-import { getUsersPlaying, givePlayersStartingTown } from 'players';
+import { getUsersPlaying } from 'players';
+import { checkDestructablesInRegion } from 'utils/terrain';
 
 /**
  * All Towns created
  */
-export const townsCreated:Unit[] = [ ]
-
-
-let initialEntitySpawn = new Point(Math.cos(180*Math.random())*16000, Math.cos(180*Math.random())*16000);
-
-/**
- * Track all entity spawn points
- */
-let entitySpawnOriginPoints:Point[] = [initialEntitySpawn];
+export const townsCreated:Unit[] = []
 
 /**
  * Track all entities during creation.
  */
 export const entities: GeneratedEntity[] = [];
 
-/**
- * All destructables will be added after all terrain deformations
- */
-let destructableSpawnPoints: Point[] = []
-
 const MAX_ENTITY_CREATION_ATTEMPTS = 1000;
 const MAP_EDGE_BUFFER_DISTANCE = 400;
+
+/**
+ * Based on these chances, create an algorithm that creates a random number and weighs it against these chances for each type, then decide.
+ */
+const entityTypeChances = {
+    'Town': 0.5,
+    'Landmark': 0.15,
+    'Shop': 0.05,
+    'Terrain Feature': 0.3,
+    // 'Camp': 0.25
+}
 
 /**
  * Used to store where the destructables will be created.
  */
 let destructableTasks =  [];
+
+/**
+ * 
+ */
+let farmLandSpawnPoints = [];
 
 /**
  * Perhaps instead of always creating a town, we should randomly decide what to create, like landmarks, etc.
@@ -77,7 +81,7 @@ export function generateWorld(){
 
             let validPoint = true;
             
-            let entity:GeneratedEntity = generateEntityType()
+            let entity:GeneratedEntity = generateEntityType();
             
             let breakpointAttempts = 0;
 
@@ -155,6 +159,9 @@ export function generateWorld(){
         tInfoTimer.destroy();
     })
 
+
+    
+
     /**
      * @Two Handling terrain deformations
      */
@@ -215,19 +222,36 @@ export function generateWorld(){
 
             let d = new Destructable(data.config.destructableCode, data.point.x, data.point.y, GetLocationZ(Location(data.point.x, data.point.y)), 0, 1, randomVariation);
             d.setAnim('birth');
+
             //For the trees
+            // if(data.config.destructableCode === DESTRUCTABLE_ID.summerTree){
+            // }
             SetTerrainType(data.point.x, data.point.y, TERRAIN_CODE.darkGrass, 0, 2, 0);
+
         });
 
         entities.forEach(entity => {
             createEntity(entity);
         });
 
+        /**
+         * @step Assigning towns to players
+         */
         getUsersPlaying().forEach((player, index) =>{
-            let t =townsCreated[index]
+            let t = townsCreated[index];
+
             t.setOwner(player, true);
-            new Unit(player, FourCC('ocat'), t.x, t.y, 0,0);
+
+            t.addItemById(START_ITEM_IDS.eternalTango);
+            t.addItemById(START_ITEM_IDS.ringOfDivinity);
+            t.addItemById(START_ITEM_IDS.staffOfWildGrowth);
+
             let u = new Unit(player, FourCC('Hpal'), t.x, t.y, 0,0);
+            
+            //Paladin on crack
+            // SetUnitTimeScale(u.handle, 100);
+            // u.name = "Crackhead"
+
             u.addItemById(ITEM_ID.eternalTango);
             
             PanCameraToForPlayer(player.handle, t.x, t.y);
@@ -239,45 +263,50 @@ export function generateWorld(){
     let dCompletedInfoTimer = new Timer().start(15, false, () => {
         print("Number of entities: ", entities.length);
         print("Number of destructables and doodads: ", destructableTasks.length);
-
-        givePlayersStartingTown();
         
-        clearFogState.destroy();
         dCompletedInfoTimer.destroy();
     });
+
+    /**
+     * @step Creating farm lands.
+     */
+    let farmlandSpawnTimer = new Timer().start(16, false, () => {
+        print("Farm land created.");
+        print(`Number of farmland spawns: ${farmLandSpawnPoints.length}`);
+
+        farmLandSpawnPoints.forEach(data => {
+            SetTerrainType(data.point.x, data.point.y, data.config.terrainCode, 0 , data.config.tileArea ?? 1, 0);
+            checkDestructablesInRegion(data.point, 600, true);
+            // new Destructable(DESTRUCTABLE_ID.originSpawn, data.point.x, data.point.y, 1000, 0, 1, 0);
+        });
+
+        clearFogState.destroy();
+        farmlandSpawnTimer.destroy();
+    });
+
 }
 
 /**
  * Generates a random entity type. 
+ * 
+ * When entities are created they chose from a set of valid tilesets and destructable sets from a pool available to their own entity type.
+ * Ex: 'Town' type has unique sets of tiles and destructables only available for the 'Town'  entity type 
  */
-function generateEntityType(){
-    let randomChoiceNumber = (Math.random());
+function generateEntityType():GeneratedEntity | null {
+    // let randomChoiceNumber = (Math.random());
 
-    let entity:GeneratedEntity = {
-        origin: new Point(0,0),
-        tileBoundRadius: 0,
-        tileSetId: 0,
-        treeSetId: 0,
-        type: 'Town',
-        destructableSetId: 0
-    }
+    //Get max value in object
+    //We must now pick a number that has an upper bound equal to the max value in the object.
+    let randomChoiceNumber = (Math.random()*0.5);
 
-    /**
-     * Based on these chances, create an algorithm that creates a random number and weighs it against these chances for each type, then decide.
-     */
-    const typeChances = {
-        'Town': 0.5,
-        'Landmark': 0.15,
-        'Shop': 0.05,
-        'Terrain Feature': 0.3,
-    }
+    let _entity = null;
 
     /**
      * @todo maybe make it so that the destructable and tile set id's are able to choose sets that are outside of the entity type, for the scenario where I like the sets from another entity type but the only way to use those sets would be to
      * duplicate them into the current entity type's set, which goes against DRY 
      */
-    if(randomChoiceNumber < typeChances.Town){
-        entity = {
+    if(randomChoiceNumber < entityTypeChances.Town){
+        _entity = {
             origin: new Point(Math.cos(180*Math.random())*16000, Math.cos(180*Math.random())*16000),
             type: 'Town',
             tileBoundRadius: 18,
@@ -286,8 +315,9 @@ function generateEntityType(){
             destructableSetId: 0
         } 
     }
-    else if(randomChoiceNumber >= typeChances.Town && randomChoiceNumber < (typeChances.Town + typeChances.Landmark)){
-        entity = {
+    
+    if(randomChoiceNumber < entityTypeChances.Landmark){
+        _entity = {
             origin: new Point(Math.cos(180*Math.random())*16000, Math.cos(180*Math.random())*16000),
             type: 'Landmark',
             tileBoundRadius: 5,
@@ -296,8 +326,9 @@ function generateEntityType(){
             destructableSetId: 0
         } 
     }
-    else if(randomChoiceNumber >= (typeChances.Town + typeChances.Landmark) && randomChoiceNumber < (typeChances.Town + typeChances.Landmark +  typeChances['Terrain Feature'])){
-        entity = {
+    
+    if(randomChoiceNumber < entityTypeChances['Terrain Feature']){
+        _entity = {
             origin: new Point(Math.cos(180*Math.random())*16000, Math.cos(180*Math.random())*16000),
             type: 'Terrain Feature',
             tileBoundRadius: 30,
@@ -306,8 +337,9 @@ function generateEntityType(){
             destructableSetId: 0
         } 
     }
-    else if(randomChoiceNumber >= (typeChances.Town + typeChances.Landmark +  typeChances['Terrain Feature'])){
-        entity = {
+    
+    if(randomChoiceNumber < entityTypeChances.Shop){
+        _entity = {
             origin: new Point(Math.cos(180*Math.random())*16000, Math.cos(180*Math.random())*16000),
             type: 'Shop',
             tileBoundRadius: 3,
@@ -317,7 +349,10 @@ function generateEntityType(){
         } 
     }
 
-    return entity;
+
+    if(!_entity) print("Entity was not generated!");
+
+    return _entity;
 }
 
 function createEntity(entity: GeneratedEntity){
@@ -343,7 +378,7 @@ function createEntity(entity: GeneratedEntity){
 
             break;
         case 'Shop':
-            //25 = neutral
+            //player 25 = neutral
             createdEntity = new Unit(Players[25], chooseRandomEnumValue(SHOP_UIDS), entity.origin.x, entity.origin.y, Math.random()*360);
             createdEntity.name = generateRandomName(entity.type);
 
@@ -365,8 +400,11 @@ function createEntity(entity: GeneratedEntity){
             points.forEach(point => {
                 let randomTileVariant = returnDiminishingChoice(TERRAIN_VARIANCES[tileConfig.terrainCode]);
 
+                //Save the crop tile position.
+                if(tileConfig.terrainCode === TERRAIN_CODE.crops) farmLandSpawnPoints.push({point, config: tileConfig}); 
+
                 SetTerrainType(point.x, point.y, tileConfig.terrainCode, randomTileVariant , tileConfig.tileArea ?? 1, 0);
-            })   
+            });   
         }
     });
 }
@@ -385,13 +423,12 @@ function createDestructableCluster(config: DestructableConfig){
 
             let d = new Destructable(config.destructableCode, point.x, point.y, GetLocationZ(Location(point.x, point.y)), 0, 1, randomVariation);
             
-            t.destroy();
-
+            
             d.setAnim('birth');
-
+            t.destroy();
         });
 
-        SetTerrainType(point.x, point.y, TERRAIN_CODE.darkGrass, 0, 2, 0);
+        // SetTerrainType(point.x, point.y, TERRAIN_CODE.darkGrass, 0, 2, 0);
     });
 }
 
@@ -415,7 +452,6 @@ function returnDiminishingChoice(numberOfChoices: number){
         let randNumber = Math.random()*numberOfChoices;
             
         if(randNumber < selectedRange){
-
             // print("Selected variant: ", x);
             // print("Selection range: ", selectedRange);
             // print("Max success chance: ", maximumSuccessChance);
