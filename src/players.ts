@@ -2,10 +2,12 @@ import { File, Point, Trigger, Unit, MapPlayer, Camera } from "w3ts";
 import { Players } from "w3ts/globals";
 import { BUILDING_IDS, capturableUSet, CUSTOM_UID, TERRAIN_CODE, UNIT_IDS } from "enums";
 import { townsCreated } from "dynamicCreation";
+import { PlayerState } from "players/player-data";
 
 export let userPlayers = 0;
 
 export const userPlayerIndexes = [];
+export const playerStates: Map<MapPlayer, PlayerState> = new Map<MapPlayer, PlayerState>();
 
 const defenderSpawnCoords = {
     x: -15880,
@@ -39,6 +41,8 @@ export function initializePlayers(){
 
         // SetPlayerUnitAvailableBJ(FourCC('h00J'), false, player.handle);
         // SetPlayerUnitAvailableBJ(FourCC('h00I'), false, player.handle);
+
+        playerStates.set(player, new PlayerState(player));
 
         player.setState(PLAYER_STATE_GIVES_BOUNTY, 1);
         
@@ -78,13 +82,12 @@ function handleDefenderInitialization(player: MapPlayer, playerIndex: number){
 
     userPlayerIndexes.push(playerIndex);
 
-    player.setState(PLAYER_STATE_RESOURCE_GOLD, 1000);
+    player.setState(PLAYER_STATE_RESOURCE_GOLD, 500);
     player.setState(PLAYER_STATE_RESOURCE_LUMBER, 500);
-    // player.setState(PLAYER_STATE_RESOURCE_FOOD_CAP, 25);
     
     // trig_moveTrainedHeroToStartLoc(player);
 
-    new Unit(player, CUSTOM_UID.soul, defenderSpawnCoords.x, defenderSpawnCoords.y, 0);
+    // new Unit(player, CUSTOM_UID.soul, defenderSpawnCoords.x, defenderSpawnCoords.y, 0);
 }
 
 function handleAttackerInitialization(player: MapPlayer, playerIndex: number){
@@ -98,7 +101,7 @@ function handleAttackerInitialization(player: MapPlayer, playerIndex: number){
     
     // trig_moveTrainedHeroToStartLoc(player);
 
-    new Unit(player, CUSTOM_UID.soul, attackerSpawnCoords.x, attackerSpawnCoords.y, 0);
+    // new Unit(player, CUSTOM_UID.soul, attackerSpawnCoords.x, attackerSpawnCoords.y, 0);
 }
 
 /**

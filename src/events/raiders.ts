@@ -67,7 +67,7 @@ export function spawnWanderingCreeps(creepSet?: {creepTypeCode: number, count: n
 
     let g = new Group();
     
-    // print("Zombies spawned!");
+    print("A plague has caused zombies to rise and attack...");
 
     zombieSet_1.forEach(cSet => {
         for (let x = 0; x < cSet.count; x++) {

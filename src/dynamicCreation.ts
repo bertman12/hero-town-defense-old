@@ -1,10 +1,10 @@
 import { DestructableConfig, EntityType, TileConfig } from './models';
 import { ITEM_ID, LANDMARK_IDS, MINIMAP_ICONS, SHOP_UIDS, START_ITEM_IDS, TERRAIN_VARIANCES, TOWN_UIDS } from './enums';
-import { destructableSets, numWorldlyEntities, TILE_WIDTH, treePointClusterConfig } from "gameConstants";
+import { destructableSets, numWorldlyEntities, TILE_WIDTH } from "gameConstants";
 import { BUILDING_IDS, DESTRUCTABLE_ID, TERRAIN_CODE, UNIT_IDS } from "enums";
 import { GeneratedEntity } from "models";
 import { generateRandomName } from "utils/names";
-import { createPointCluster_Simple } from "utils/points";
+import { createPointCluster_Simple, getRandomPointInMap } from "utils/points";
 import { Camera, Destructable, FogModifier, Point, Rectangle, Timer, Unit } from "w3ts";
 import { Players } from "w3ts/globals";
 import { tileSets } from 'gameConstants';
@@ -29,10 +29,10 @@ const MAP_EDGE_BUFFER_DISTANCE = 400;
  * Based on these chances, create an algorithm that creates a random number and weighs it against these chances for each type, then decide.
  */
 const entityTypeChances = {
-    'Town': 0.5,
-    'Landmark': 0.15,
-    'Shop': 0.05,
-    'Terrain Feature': 0.3,
+    'Town': 1,
+    'Landmark': 0.3,
+    'Shop': 0.1,
+    'Terrain Feature': 0.6,
     // 'Camp': 0.25
 }
 
@@ -86,6 +86,9 @@ export function generateWorld(){
             let breakpointAttempts = 0;
 
             do{
+                //sets ability tooltip
+                // BlzSetAbilityIcon
+                
 
                 /**
                  * Exit the loop once you have exceeded the max attempts to find a point to spawn the entity 
@@ -108,10 +111,12 @@ export function generateWorld(){
                      * This prevents spawning an entity on top of or close to another entity outside the boundaries set.
                      */
                     if((pointToTest.x - entity.origin.x)*(pointToTest.x - entity.origin.x) + (pointToTest.y - entity.origin.y)*(pointToTest.y - entity.origin.y)  < (TILE_WIDTH*entity.tileBoundRadius)*(TILE_WIDTH*entity.tileBoundRadius)){
-                        entity.origin = new Point(Math.cos(180*Math.random())*(GetCameraBoundMaxX() - MAP_EDGE_BUFFER_DISTANCE), Math.cos(180*Math.random())*(GetCameraBoundMaxY() -MAP_EDGE_BUFFER_DISTANCE));
-
+                        // entity.origin = new Point(Math.cos(180*Math.random())*(GetCameraBoundMaxX() - MAP_EDGE_BUFFER_DISTANCE), Math.cos(180*Math.random())*(GetCameraBoundMaxY() -MAP_EDGE_BUFFER_DISTANCE));
+                        
+                        //Reassign a new point for the entity and try to place it again.
+                        entity.origin = getRandomPointInMap();
+                        
                         validPoint = false;
-
                         break;
                     }
                 }
@@ -130,7 +135,7 @@ export function generateWorld(){
              */
             if(breakpointAttempts >= MAX_ENTITY_CREATION_ATTEMPTS){
                 t.destroy();
-
+                print(`Unable to find a valid location for entity ${entity.type}`);
                 // print("Unable to created entity number: ", x);
 
                 /**
@@ -246,8 +251,8 @@ export function generateWorld(){
             t.addItemById(START_ITEM_IDS.ringOfDivinity);
             t.addItemById(START_ITEM_IDS.staffOfWildGrowth);
 
-            let u = new Unit(player, FourCC('Hpal'), t.x, t.y, 0,0);
-            
+            let u = new Unit(player, UNIT_IDS.heraldOfTheArcane, t.x, t.y, 0,0);
+            u.setHeroLevel(10, false);
             //Paladin on crack
             // SetUnitTimeScale(u.handle, 100);
             // u.name = "Crackhead"
@@ -297,9 +302,10 @@ function generateEntityType():GeneratedEntity | null {
 
     //Get max value in object
     //We must now pick a number that has an upper bound equal to the max value in the object.
-    let randomChoiceNumber = (Math.random()*0.5);
+    let randomChoiceNumber = (Math.random());
 
     let _entity = null;
+    let entityOriginPoint = getRandomPointInMap();
 
     /**
      * @todo maybe make it so that the destructable and tile set id's are able to choose sets that are outside of the entity type, for the scenario where I like the sets from another entity type but the only way to use those sets would be to
@@ -307,7 +313,7 @@ function generateEntityType():GeneratedEntity | null {
      */
     if(randomChoiceNumber < entityTypeChances.Town){
         _entity = {
-            origin: new Point(Math.cos(180*Math.random())*16000, Math.cos(180*Math.random())*16000),
+            origin: entityOriginPoint,
             type: 'Town',
             tileBoundRadius: 18,
             tileSetId: Math.floor(Math.random()*Object.keys(tileSets['Town']).length),
@@ -315,21 +321,10 @@ function generateEntityType():GeneratedEntity | null {
             destructableSetId: 0
         } 
     }
-    
-    if(randomChoiceNumber < entityTypeChances.Landmark){
-        _entity = {
-            origin: new Point(Math.cos(180*Math.random())*16000, Math.cos(180*Math.random())*16000),
-            type: 'Landmark',
-            tileBoundRadius: 5,
-            tileSetId: Math.floor(Math.random()*Object.keys(tileSets['Landmark']).length),
-            treeSetId: 0,
-            destructableSetId: 0
-        } 
-    }
-    
+
     if(randomChoiceNumber < entityTypeChances['Terrain Feature']){
         _entity = {
-            origin: new Point(Math.cos(180*Math.random())*16000, Math.cos(180*Math.random())*16000),
+            origin: entityOriginPoint,
             type: 'Terrain Feature',
             tileBoundRadius: 30,
             tileSetId: Math.floor(Math.random()*Object.keys(tileSets['Terrain Feature']).length),
@@ -338,9 +333,20 @@ function generateEntityType():GeneratedEntity | null {
         } 
     }
     
+    if(randomChoiceNumber < entityTypeChances.Landmark){
+        _entity = {
+            origin: entityOriginPoint,
+            type: 'Landmark',
+            tileBoundRadius: 5,
+            tileSetId: Math.floor(Math.random()*Object.keys(tileSets['Landmark']).length),
+            treeSetId: 0,
+            destructableSetId: 0
+        } 
+    }
+    
     if(randomChoiceNumber < entityTypeChances.Shop){
         _entity = {
-            origin: new Point(Math.cos(180*Math.random())*16000, Math.cos(180*Math.random())*16000),
+            origin: entityOriginPoint,
             type: 'Shop',
             tileBoundRadius: 3,
             tileSetId: Math.floor(Math.random()*Object.keys(tileSets['Shop']).length),
@@ -348,7 +354,6 @@ function generateEntityType():GeneratedEntity | null {
             destructableSetId: 0
         } 
     }
-
 
     if(!_entity) print("Entity was not generated!");
 
@@ -366,6 +371,8 @@ function createEntity(entity: GeneratedEntity){
             
             townsCreated.push(createdEntity);
             
+            //Add something to the town. 
+
             // for (let x = 0; x < 2; x++) {
             //     new Unit(Players[9], UNIT_IDS.footman, (entity.origin.x + 300 - 100*x), (entity.origin.y + 300 + 100*x), 0)
             //     new Unit(Players[9], UNIT_IDS.rifleman, (entity.origin.x - 300 + 100*x), (entity.origin.y - 300 - 100*x), 0)
@@ -375,7 +382,7 @@ function createEntity(entity: GeneratedEntity){
         case 'Landmark':
             createdEntity = new Unit(Players[9], chooseRandomEnumValue(LANDMARK_IDS), entity.origin.x, entity.origin.y, -90);
             createdEntity.name = generateRandomName(entity.type);
-
+        print("Landmark created!");
             break;
         case 'Shop':
             //player 25 = neutral

@@ -5,7 +5,6 @@ import { Players } from "w3ts/globals";
 export function initEconomy(){
     passiveIncomeSetup();
     giveTownGold();
-    // print("Economy initialized!");
 }
 
 function passiveIncomeSetup(){
@@ -15,7 +14,6 @@ function passiveIncomeSetup(){
 
 function distributeGold(){
     Players.forEach(player => {
-        // print("Giving gold!");
         player.setState(PLAYER_STATE_RESOURCE_GOLD, (player.getState(PLAYER_STATE_RESOURCE_GOLD) + 1));
     });  
 }
@@ -27,8 +25,6 @@ function giveTownGold(){
     let t = new Timer();
 
     t.start(60, true, () => {
-        // ClearTextMessages();
-        
         Players.forEach(player => {
             let g = new Group();
             let totalIncome = 0;

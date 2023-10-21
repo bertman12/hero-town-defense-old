@@ -3,6 +3,7 @@ gg_snd_SargerasLaugh = nil
 gg_snd_SargerasRoar = nil
 gg_snd_FrostmourneChant1 = nil
 gg_snd_TheHornOfCenarius = nil
+gg_snd_CharmTarget1 = nil
 function InitGlobals()
 end
 
@@ -24,17 +25,10 @@ gg_snd_TheHornOfCenarius = CreateSound("Sound/Ambient/DoodadEffects/TheHornOfCen
 SetSoundParamsFromLabel(gg_snd_TheHornOfCenarius, "HornOfCenariusSound")
 SetSoundDuration(gg_snd_TheHornOfCenarius, 12120)
 SetSoundVolume(gg_snd_TheHornOfCenarius, 127)
-end
-
-function CreateNeutralPassiveBuildings()
-local p = Player(PLAYER_NEUTRAL_PASSIVE)
-local u
-local unitID
-local t
-local life
-
-u = BlzCreateUnitWithSkin(p, FourCC("n001"), -16000.0, -15680.0, 270.000, FourCC("n001"))
-SetUnitColor(u, ConvertPlayerColor(0))
+gg_snd_CharmTarget1 = CreateSound("Abilities/Spells/Items/AIco/CharmTarget1.flac", false, true, true, 0, 0, "SpellsEAX")
+SetSoundParamsFromLabel(gg_snd_CharmTarget1, "Charm")
+SetSoundDuration(gg_snd_CharmTarget1, 2681)
+SetSoundVolume(gg_snd_CharmTarget1, 127)
 end
 
 function CreateNeutralPassive()
@@ -66,7 +60,6 @@ function CreatePlayerUnits()
 end
 
 function CreateAllUnits()
-CreateNeutralPassiveBuildings()
 CreatePlayerBuildings()
 CreateNeutralPassive()
 CreatePlayerUnits()

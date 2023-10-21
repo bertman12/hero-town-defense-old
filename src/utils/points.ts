@@ -231,7 +231,14 @@ export function getRandomDirection(){
     return value;
 }
 
-export function getRandomPointInMap(){
+/**
+ * 
+ * @param bufferDistance Subtracted from the map edge
+ * @returns 
+ */
+export function getRandomPointInMap(mapEdgeBuffer?: number){
+    if(!mapEdgeBuffer) mapEdgeBuffer = 0;
+    
     let absX = GetCameraBoundMaxX();
     let absY = GetCameraBoundMaxY();
 
@@ -241,8 +248,8 @@ export function getRandomPointInMap(){
 
     // GetCameraBoundMinX() + (GetCameraBoundMaxX() - GetCameraBoundMinX()) * Math.random();
 
-    let x = (2*absX)*Math.random() - absX;
-    let y = (2*absY)*Math.random() - absY;
+    let x = (2*absX)*Math.random() - absX - mapEdgeBuffer;
+    let y = (2*absY)*Math.random() - absY - mapEdgeBuffer;
 
     let p = new Point(x,y);
     

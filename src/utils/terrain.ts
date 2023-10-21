@@ -66,7 +66,7 @@ export function checkDestructablesInRegion(origin: Point, radius: number, destro
         // if(d.typeId === DESTRUCTABLE_ID.summerTree) print("Summer tree detected!");
         if(destroy && d.typeId === DESTRUCTABLE_ID.summerTree){
             d.destroy();
-            print("Tree destroyed!")
+            // print("Tree destroyed!")
         }
         else if(d) {
             // print("destructable is in region");

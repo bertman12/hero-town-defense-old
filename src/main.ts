@@ -2,7 +2,7 @@ import { Destructable, File, FogModifier, Group, Point, Timer, TimerDialog, Trig
 import { Players } from "w3ts/globals";
 import { OrderId } from "w3ts/globals/order";
 import { addScriptHook, W3TS_HOOK } from "w3ts/hooks";
-import { UNIT_IDS, ZOMBIE_MUTATION_ID, SHRIFT_ABILITIES, DESTRUCTABLE_ID, TERRAIN_CODE, Ability_IDS } from "enums";
+import { UNIT_IDS, ZOMBIE_MUTATION_ID, SHRIFT_ABILITIES, DESTRUCTABLE_ID, TERRAIN_CODE, ABILITY_ID } from "enums";
 import { setupAbilityTriggers } from "abilities";
 import { initAttackerForces } from "enemies";
 import { initializePlayers } from "players";
@@ -20,17 +20,12 @@ function tsMain() {
   print(`Typescript: v${TS_VERSION}`);
   print(`Transpiler: v${TSTL_VERSION}`);
   print(" ");
-  print("Welcome to TypeScript!");
+  // print("Welcome to TypeScript!");
+
+  print("Map created by JediMindTrix/Nihilism_Is_Death");
 
   //Works
   // SetCameraBounds(-1200,-1200,-1200,1200, 1200, 1200, 1200, -1200);
-
-
-  // const u = new Unit(Players[0], UNIT_IDS.rifleman, 0,0, 0)
-  // u.addAbility(Ability_IDS.scry);
-  // u.moveSpeed = 1000;
-  // u.maxLife = 2500;
-  // u.life = 2500;
 
   try {
     let startTimer = new Timer();

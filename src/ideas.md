@@ -90,20 +90,42 @@ MAke creep towns have different styles of AI, murlocs breed like crazy; trolls s
 
 Give a bounty for taking player towns over AI towns.
 
-Add item - ring of divinity - gives divine shield for 6  seconds, 75 second cooldown.
+>>Add item - ring of divinity - gives divine shield for 6  seconds, 75 second cooldown.
 
 Add Demon lord that can sacrifice all his units to gain their stats and add them to his own.
 
-Pigs can use metamorphosis to transform into battle units.... lol 
+>>Pigs can use metamorphosis to transform into battle units.... lol 
 
 The more you use the curse of wild growth the darker the character gets, his soul is lost little by little. When you are completely black, a demon will erupt from within you killing you instantly. However you can play as a demon disciple  instead.
 Each time you use the spell, you can hear mannoroth laugh
 
-
 Item - Ring of the Unbound - use the unbound spell. add flavor text
 
 
+Add flying shop using zeplin or sky barge.
+
+Make it so picking certain heroes will cause certain events to occur
+
+Add multiboard for different events.
+
+Make events occur more the longer the game has lasted. Chaos meter, shows the chance of events to occur.
+
+Make it so some creep camps are neutral teams, but you can go to war with them or ally them.
+
+Keeping a creep faction as ally will let you buy their units
 
 
 
+===========
+10-21-23
+
+Player will be able to build an artifact pedestal to store all their artifacts.
+
+Artifacts will provide bonuses to their units/buildings providing different bonuses. Maybe towns use flaming arrows , provide more gold, have auras, allow the construction of certain building, etc. 
+Artifacts can also be picked up by heros which provide different bonuses. When a hero is using an artifact, it will lose some of the buffs it gave to units/buildings will be diminished whilst it is not on the artifact pedestal but it may be helpful in your heroes campaigning. 
+
+A player can choose their artifact from a list of abilities on the pedestal structure. They can choose from 3 items. Once one is chosen the abilities are removed from the pedestal.
+The player can reroll for free but takes 60 seconds to complete. This will just done via building upgrade. 
+
+The player should be able to acquire other player's artifacts if they defeat or subjugate them .
 

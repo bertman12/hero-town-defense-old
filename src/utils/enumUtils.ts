@@ -15,3 +15,4 @@ export function chooseRandomEnumValue(enumSet){
     
     return enumSet[_enumKeys[Math.floor(Math.random()*_enumKeys.length)]];
 }
+

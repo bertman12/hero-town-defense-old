@@ -4,21 +4,12 @@ import { Point } from "w3ts";
 import { DESTRUCTABLE_ID, TERRAIN_CODE } from "enums";
 import { createPointCluster_Simple } from "utils/points";
 
-let testSpawn = new Point(7150, -2150);
-
 const DEFAULT_ORIGIN = new Point(0,0);
 
 /**
  * Size in units of attack range
  */
 export const TILE_WIDTH = 130;
-
-export const treePointClusterConfig: PointClusterConfig = {
-    numberOfPoints: 10,
-    minTileDistanceFromOrigin: 5,
-    maxTileDistanceFromOrigin: 10,
-    originLoc: new Point(testSpawn.x, testSpawn.y)
-}
 
 /**
  * The number of entities to be spawned at game creation time

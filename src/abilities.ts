@@ -1,15 +1,18 @@
-import { Destructable, File, FogModifier, Group, Point, Timer, TimerDialog, Trigger, Unit, Widget, Handle, Effect, Color } from "w3ts";
+import { Destructable, File, FogModifier, Group, Point, Timer, TimerDialog, Trigger, Unit, Widget, Handle, Effect, Color, Item } from "w3ts";
 import { Players } from "w3ts/globals";
-import { UNIT_IDS, ZOMBIE_MUTATION_ID, SHRIFT_ABILITIES, Ability_IDS, DESTRUCTABLE_ID } from "enums";
+import { UNIT_IDS, ZOMBIE_MUTATION_ID, SHRIFT_ABILITIES, ABILITY_ID, DESTRUCTABLE_ID, ITEM_ID } from "enums";
 import { OrderId } from "w3ts/globals/order";
+import { playerStates } from "players";
 
 export function setupAbilityTriggers(){
-    initTheUnbound();
-    initTheGlutton();
+    trig_catastrophicBlink();
+    trig_theGlutton();
     trig_CurseOfWildGrowth();
+    trig_timeFreeze();
+    trig_createDemonCrown();
 }
 
-function initTheUnbound(){  
+function trig_catastrophicBlink(){  
     let trigger = new Trigger();
     
     trigger.registerAnyUnitEvent(EVENT_PLAYER_UNIT_SPELL_EFFECT);
@@ -22,28 +25,30 @@ function initTheUnbound(){
         }
 
         return false
-    })
+    });
 
     trigger.addAction(() => {
         //Select units in range of the caster;
         let castUnit = Unit.fromEvent();
         let affectedUnits = new Group()
+        let abilityLevel = castUnit.getAbilityLevel(SHRIFT_ABILITIES.theUnbound);
 
         //Play spell effect regardless of enemies being nearby
         let spellEffect = new Effect('Abilities\Spells\Human\Thunderclap\ThunderClapCaster.mdl', GetSpellTargetX(), GetSpellTargetY());
-        spellEffect.scale = castUnit.getAbilityLevel(SHRIFT_ABILITIES.theUnbound);
+        spellEffect.scale = abilityLevel;
         spellEffect.playAnimation(ANIM_TYPE_SPELL);
 
-        affectedUnits.enumUnitsInRange(GetSpellTargetX(), GetSpellTargetY(), 450,  () => {
+        affectedUnits.enumUnitsInRange(GetSpellTargetX(), GetSpellTargetY(), 200 + 100*abilityLevel,  () => {
             let unit = Group.getFilterUnit();
             
             if(!unit.isAlly(Players[0])){
-                castUnit.damageTarget(unit.handle, 100, false, false, ATTACK_TYPE_HERO, DAMAGE_TYPE_NORMAL, WEAPON_TYPE_WHOKNOWS)
+                castUnit.damageTarget(unit.handle, 100 * abilityLevel, false, false, ATTACK_TYPE_HERO, DAMAGE_TYPE_NORMAL, WEAPON_TYPE_WHOKNOWS)
             }
 
             // let effect = new Effect('Abilities\Spells\Human\Thunderclap\ThunderClapCaster.mdl', GetSpellTargetX(), GetSpellTargetY());
             // effect.scale = castUnit.getAbilityLevel(SHRIFT_ABILITIES.theUnbound);
             // effect.playAnimation(ANIM_TYPE_SPELL);
+            
             return true;    
         })
     });
@@ -54,7 +59,7 @@ let devouredUnits = 0;
 /**
  * @todo show a tooltip of gained stats
  */
-function initTheGlutton(){
+function trig_theGlutton(){
     let trigger = new Trigger()
     trigger.registerAnyUnitEvent(EVENT_PLAYER_UNIT_SPELL_EFFECT);
 
@@ -103,7 +108,7 @@ function trig_CurseOfWildGrowth(){
     t.addCondition(() => {
         let castUnit = Unit.fromEvent();
 
-        if(GetSpellAbility() === castUnit.getAbility(Ability_IDS.curseOfWildGrowth)){
+        if(GetSpellAbility() === castUnit.getAbility(ABILITY_ID.curseOfWildGrowth)){
             print("Curse of wild growth used!");
             print("The caster: ",castUnit.name);
 
@@ -158,3 +163,77 @@ function trig_CurseOfWildGrowth(){
 
 }
 
+function trig_timeFreeze(){
+    let t  = new Trigger();
+
+    t.registerAnyUnitEvent(EVENT_PLAYER_UNIT_SPELL_EFFECT);
+
+    t.addCondition(() => {
+        let castUnit = Unit.fromEvent();
+
+        if(GetSpellAbility() === castUnit.getAbility(ABILITY_ID.timeFreeze)){
+            print("Time freeze used!");
+            print("The caster: ",castUnit.name);
+
+            let target = Unit.fromHandle(GetSpellTargetUnit());
+
+            print("Curse target: ",target.name);
+
+            return true;
+        }
+
+        return false;
+    });
+
+    t.addAction(() => {
+        let castUnit = Unit.fromEvent();
+
+        let target = Unit.fromHandle(GetSpellTargetUnit());
+        //Give target blue tint
+        target.setVertexColor(200, 0, 255, 100);
+
+        target.paused = true;
+        target.invulnerable = true;
+
+        SetUnitTimeScale(target.handle, 0);
+
+        let timer = new Timer().start(10, false, () => {
+            target.paused = false;
+            target.setVertexColor(255, 255, 255, 255);
+            target.invulnerable = false;
+            
+            SetUnitTimeScale(target.handle, 1);
+            
+            timer.destroy();
+        });
+    
+        PlaySoundOnUnitBJ(gg_snd_CharmTarget1, 100, target.handle);
+    });
+}
+
+function trig_createDemonCrown(){
+    let t  = new Trigger();
+    
+    t.registerAnyUnitEvent(EVENT_PLAYER_UNIT_SPELL_EFFECT);
+
+    t.addCondition(() => {
+        let castUnit = Unit.fromEvent();
+        if(GetSpellAbility() === castUnit.getAbility(ABILITY_ID.demonCrownCreate)){
+            print("demon crown was cast!");
+            return true;
+        }
+
+        return false;
+    });
+
+    t.addAction(() => {
+        let artifactPedestal = Unit.fromEvent();
+        //add item to the unit inventory
+        let p = artifactPedestal.owner;
+        let item = new Item(ITEM_ID.demonCrown, 0,0);
+        artifactPedestal.addItem(item);
+        
+        playerStates.get(p).addArtifact("demonCrown")
+        print("Player state updated for ", p.name, " to add demon crown to their artifacts");
+    });
+}

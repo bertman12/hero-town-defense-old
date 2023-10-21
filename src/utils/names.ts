@@ -4,15 +4,15 @@ const adjectives = [
     'Bright',
     'Grim',
     'Gore',
-    'Bloom',
+    // 'Bloom',
     'Sharp',
     'Spite',
-    'Limber',
+    // 'Limber',
     'Swift',
     'Strong',
     'Quick',
     'Hate',
-    'Virtuous',
+    // 'Virtuous',
     'Sorrow',
     'Vengeance',
     // 'Lust',
@@ -20,9 +20,13 @@ const adjectives = [
     'Rage',
     'Pure',
     'Mystic',
-    'Blight'
+    'Blight',
+
+    // 'Nature',
+    // 'Death',
 ];
 
+//Should be an object to make sense with the adjective for the town names
 const nouns = [
     'Spear',
     'Hammer',
@@ -35,9 +39,8 @@ const nouns = [
     'Shield',
     'Magic',
     'Tome',
-    'Earth',
-    'Nature',
-    'Death',
+    // 'Earth',
+
     'Staff',
     'Flame',
     'Stone',
@@ -51,15 +54,19 @@ const nouns = [
 
 const townSuffixes = [
     // 'Town', - Not very warcrafty
-    'Village',
-    'Sanctuary',
-    'Borough'
+    ' Village',
+    ' Sanctuary',
+    ' Borough',
+    ' Bastion',
+    // 'burg',
+    // 'ville'
 ];
 
 const shopNames = [
     'Shop',
     'Merchant',
-    'Trade Post'
+    'Trade Post',
+    'Bazaar'
 ];
 
 const landmarkPrefixes = [
@@ -68,9 +75,12 @@ const landmarkPrefixes = [
     'General ',
     'King ',
     'Prince ',
-    'The Great '
+    'The Great ',
+    'Emperor '
     // 'Martyr '
 ];
+
+
 
 const names = [
     'Leonidas', 
@@ -118,3 +128,4 @@ export function generateRandomName(nameType: EntityType, other?: any){
 function getRandomNameFromSet(set: string[]){
     return set[Math.floor(Math.random()*set.length)];
 }
+

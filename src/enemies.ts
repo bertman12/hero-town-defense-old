@@ -7,6 +7,7 @@ import { entities } from "dynamicCreation";
 import { checkDestructablesInRegion } from "utils/terrain";
 import { spawnDemonSeer } from "events/demonSeer";
 import { spawnRaiders, spawnWanderingCreeps } from "events/raiders";
+import { spawnGoliath } from "events/goliath";
 
 /**
  * Player 21 = Attacker forces.
@@ -24,10 +25,16 @@ export function initAttackerForces(){
     spawnDemonSeer();
 
     spawnRaiders();
-    spawnRaiders();
-    spawnRaiders();
+    // spawnRaiders();
+    // spawnRaiders();
 
-    new Timer().start(15, true, () => {
+
+    //fuck up the players
+    new Timer().start(45, true, () => {
+      spawnGoliath();
+    })
+
+    new Timer().start(60, true, () => {
       spawnWanderingCreeps();
     })
 

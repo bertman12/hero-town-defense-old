@@ -31,14 +31,13 @@ export enum UNIT_IDS {
     villagerElfMale = FourCC('nhem'),
 
     treant = FourCC('efon'),
-
+    earthernGoliath = FourCC("e002"),
     
     // customPaladin = FourCC('H000'),
     theGlutton = FourCC('H001'),
-
-
+    heraldOfTheArcane = FourCC('H00M'),
+    artifactPedestal = FourCC('h00O'),
 }
-
 
 export enum BUILDING_IDS {
     townHall = FourCC('h004'),
@@ -83,9 +82,12 @@ export enum SHOP_UIDS {
     mercenaryCampLordaeron = FourCC('nmer'),
 }
 
-export enum Ability_IDS {
+export enum ABILITY_ID {
     scry = FourCC('AHta'),
     curseOfWildGrowth = FourCC('A00D'),
+    timeFreeze = FourCC('A00G'),
+    demonCrownDarkPortal = FourCC("A00L"),
+    demonCrownCreate = FourCC("A00K"),
 }
 
 export enum SHRIFT_ABILITIES {
@@ -169,7 +171,8 @@ export const TERRAIN_VARIANCES = {
 } 
 
 export enum ITEM_ID{
-    eternalTango = FourCC('I001')
+    eternalTango = FourCC('I001'),
+    demonCrown = FourCC('I004'),
 }
 
 /**

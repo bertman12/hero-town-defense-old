@@ -41,30 +41,6 @@ STRING 10
 The Glutton
 }
 
-STRING 12
-// Abilities: A000 ("U" - The Unbound), Name (Name)
-{
-"U" - The Unbound
-}
-
-STRING 13
-// Abilities: A000 ("U" - The Unbound), Tip (Tooltip - Normal)
-{
-"U" - The Unbound
-}
-
-STRING 14
-// Abilities: A000 ("U" - The Unbound), Tip (Tooltip - Normal)
-{
-"U" - The Unbound
-}
-
-STRING 15
-// Abilities: A000 ("U" - The Unbound), Tip (Tooltip - Normal)
-{
-"U" - The Unbound
-}
-
 STRING 17
 // Abilities: A001 ("G" - The Glutton), Tip (Tooltip - Normal)
 {
@@ -411,27 +387,21 @@ Earthern Goliath
 }
 
 STRING 98
-// Upgrades: R000 (Chaos), Name (Name)
+// Upgrades: R002 (Chaos), Name (Name)
 {
 Worker Speed
 }
 
 STRING 99
-// Upgrades: R000 (Chaos), effect1 (Effect 1)
+// Upgrades: R002 (Chaos), effect1 (Effect 1)
 {
 rmvx
 }
 
 STRING 100
-// Upgrades: R000 (Chaos), Tip (Tooltip)
+// Upgrades: R002 (Chaos), Tip (Tooltip)
 {
 Research Worker Speed
-}
-
-STRING 101
-// Upgrades: R000 (Chaos), Ubertip (Tooltip - Extended)
-{
-Improves the move speed of your workers.
 }
 
 STRING 102
@@ -740,12 +710,6 @@ STRING 166
 Gives a 5% chance to do 10 times total damage on an attack.
 }
 
-STRING 167
-// Units: hwtw (Scout Tower), Ubertip (Tooltip - Extended)
-{
-Durable Observation tower. Can learn the Magic Sentry ability.
-}
-
 STRING 169
 // Units: nhea (Archer), Ubertip (Tooltip - Extended)
 {
@@ -786,18 +750,6 @@ STRING 177
 // Units: hrif (Rifleman), Ubertip (Tooltip - Extended)
 {
 Highly skilled sharpshooter, effective against air units Has a very long attack range but is slower than most ranged units. Can gain the Long Rifles upgrade. |n|n|cffffcc00Attacks land and air units.|r
-}
-
-STRING 179
-// Units: nhem (High Elf), Ubertip (Tooltip - Extended)
-{
-Provides small boost to gold income. +5 gold. Has slightly more health than felame villager.
-}
-
-STRING 180
-// Units: nhef (High Elf), Ubertip (Tooltip - Extended)
-{
-Provides small boost to gold income. +5 gold. Is slightly faster than male villager.
 }
 
 STRING 181
@@ -882,5 +834,421 @@ STRING 196
 // Items: I003 (Demon Staff of Wild Growth), Ubertip (Tooltip - Extended)
 {
 Causes roots to erupt from the ground and impale the unit, causing heavy damage while also immobilizing it. A Demon Treant is summoned to slay the target. |nThe Demon Treant lasts for 6 seconds.
+}
+
+STRING 197
+// Abilities: A00F (Evasion), Ubertip (Tooltip - Normal - Extended)
+{
+Gives a 10% percent chance to avoid an attack.
+}
+
+STRING 198
+// Abilities: A00F (Evasion), EditorSuffix (Editor Suffix)
+{
+(archer)
+}
+
+STRING 199
+// Upgrades: R000 (Chaos), Name (Name)
+{
+Improved Evasion - Archer
+}
+
+STRING 203
+// Upgrades: R000 (Chaos), Tip (Tooltip)
+{
+Research Improved Evasion - Archer
+}
+
+STRING 204
+// Upgrades: R000 (Chaos), Ubertip (Tooltip - Extended)
+{
+Improves the evasion of your archers.
+}
+
+STRING 205
+// Upgrades: R000 (Chaos), effect1 (Effect 1)
+{
+rlev
+}
+
+STRING 206
+// Abilities: A00F (Evasion), Ubertip (Tooltip - Normal - Extended)
+{
+Gives a 25% percent chance to avoid an attack.
+}
+
+STRING 207
+// Units: H00M (Herald of the Arcane), Name (Name)
+{
+Herald of the Arcane
+}
+
+STRING 208
+// Units: H00M (Herald of the Arcane), Awakentip (Tooltip - Awaken)
+{
+Revive Herald of the Arcane
+}
+
+STRING 209
+// Units: H00M (Herald of the Arcane), Tip (Tooltip - Basic)
+{
+Summon Herald of the Arcane
+}
+
+STRING 210
+// Units: H00M (Herald of the Arcane), Revivetip (Tooltip - Revive)
+{
+Revive Herald of the Arcane
+}
+
+STRING 211
+// Units: H00M (Herald of the Arcane), Ubertip (Tooltip - Extended)
+{
+Mage Hero.
+}
+
+STRING 212
+// Abilities: A00G (Time Freeze), Name (Name)
+{
+Time Freeze
+}
+
+STRING 213
+// Abilities: A00G (Time Freeze), Researchtip (Tooltip - Learn)
+{
+Learn Timer Freeze
+}
+
+STRING 214
+// Abilities: A00G (Time Freeze), Researchubertip (Tooltip - Learn - Extended)
+{
+Freezes the unit in place for some time.
+}
+
+STRING 215
+{
+Demon Gold:
+}
+
+STRING 216
+{
+Demon Gold
+}
+
+STRING 217
+// Buffs/Effects: B000 (Time Freeze), EditorName (Name (Editor Only))
+{
+Time Freeze
+}
+
+STRING 218
+// Buffs/Effects: B000 (Time Freeze), Bufftip (Tooltip)
+{
+Time Freeze
+}
+
+STRING 219
+// Buffs/Effects: B000 (Time Freeze), Buffubertip (Tooltip - Extended)
+{
+This unit has been frozen in time.
+}
+
+STRING 220
+// Abilities: A00G (Time Freeze), Tip (Tooltip - Normal)
+{
+Time Freeze - [|cffffcc00Level 1|r]
+}
+
+STRING 221
+// Abilities: A00G (Time Freeze), Tip (Tooltip - Normal)
+{
+Time Freeze - [|cffffcc00Level 2|r]
+}
+
+STRING 222
+// Abilities: A00G (Time Freeze), Tip (Tooltip - Normal)
+{
+Time Freeze - [|cffffcc00Level 3|r]
+}
+
+STRING 229
+// Abilities: A00G (Time Freeze), Ubertip (Tooltip - Normal - Extended)
+{
+Freezes the unit in place for some time. Freezes target for 10 seconds and deals 100 damage after the target is unfrozen. Whilst frozen, target is invulnerable.|n |cff808080Cooldown: |r60|cff808080/50/40 seconds.|r 
+}
+
+STRING 230
+// Abilities: A00G (Time Freeze), Ubertip (Tooltip - Normal - Extended)
+{
+Freezes the unit in place for some time. Freezes target for 10 seconds and deals 100 damage after the target is unfrozen. Whilst frozen, target is invulnerable.|n |cff808080Cooldown: 60/|r50|cff808080/40 seconds.|r 
+}
+
+STRING 231
+// Abilities: A00G (Time Freeze), Ubertip (Tooltip - Normal - Extended)
+{
+Freezes the unit in place for some time. Freezes target for 10 seconds and deals 100 damage after the target is unfrozen. Whilst frozen, target is invulnerable.|n |cff808080Cooldown: 60/50/|r40|cff808080 seconds.|r 
+}
+
+STRING 233
+// Units: h00N (Arcane Elemental), Name (Name)
+{
+Arcane Elemental
+}
+
+STRING 234
+// Units: h00N (Arcane Elemental), EditorSuffix (Name - Editor Suffix)
+{
+(Level 1)
+}
+
+STRING 235
+// Abilities: A00H (Summon Arcane Elemental), Name (Name)
+{
+Summon Arcane Elemental
+}
+
+STRING 237
+// Abilities: A00H (Summon Arcane Elemental), Researchtip (Tooltip - Learn)
+{
+Learn Summon Arcane Elemental - [|cffffcc00Level %d|r].
+}
+
+STRING 238
+// Abilities: A00H (Summon Arcane Elemental), Tip (Tooltip - Normal)
+{
+Summon Arcane Elemental - [|cffffcc00Level 1|r]
+}
+
+STRING 239
+// Abilities: A00H (Summon Arcane Elemental), Tip (Tooltip - Normal)
+{
+Summon Arcane Elemental - [|cffffcc00Level 2|r]
+}
+
+STRING 240
+// Abilities: A00H (Summon Arcane Elemental), Tip (Tooltip - Normal)
+{
+Summon Arcane Elemental - [|cffffcc00Level 3|r]
+}
+
+STRING 241
+// Abilities: A00H (Summon Arcane Elemental), Ubertip (Tooltip - Normal - Extended)
+{
+Summons 1 Arcane Elemental. Has Spell Immunity and Mana Burn. Lasts 60 seconds.
+}
+
+STRING 242
+// Abilities: A00H (Summon Arcane Elemental), Ubertip (Tooltip - Normal - Extended)
+{
+Summons 2 Arcane Elemental. Has Spell Immunity and Mana Burn. Lasts 60 seconds.
+}
+
+STRING 243
+// Abilities: A00H (Summon Arcane Elemental), Ubertip (Tooltip - Normal - Extended)
+{
+Summons 3 Arcane Elemental. Has Spell Immunity and Mana Burn. Lasts 60 seconds.
+}
+
+STRING 244
+// Abilities: A004 (Eat Tree), EditorSuffix (Editor Suffix)
+{
+(Greater Tango)
+}
+
+STRING 245
+// Abilities: A000 (Catastrophic Blink), Name (Name)
+{
+Catastrophic Blink
+}
+
+STRING 246
+// Abilities: A000 (Catastrophic Blink), Researchtip (Tooltip - Learn)
+{
+Learn Catastrophic Blink - [|cffffcc00Level %d|r]
+}
+
+STRING 247
+// Abilities: A000 (Catastrophic Blink), Researchubertip (Tooltip - Learn - Extended)
+{
+Short distance teleportation that causes a shockwave at the target destination where you land.
+}
+
+STRING 248
+// Abilities: A000 (Catastrophic Blink), Tip (Tooltip - Normal)
+{
+Catastrophic Blink
+}
+
+STRING 249
+// Abilities: A000 (Catastrophic Blink), Tip (Tooltip - Normal)
+{
+Catastrophic Blink
+}
+
+STRING 250
+// Abilities: A000 (Catastrophic Blink), Tip (Tooltip - Normal)
+{
+Catastrophic Blink
+}
+
+STRING 251
+// Abilities: A000 (Catastrophic Blink), Ubertip (Tooltip - Normal - Extended)
+{
+Short distance teleportation that causes a shockwave at the target destination where you land.
+}
+
+STRING 252
+// Abilities: A000 (Catastrophic Blink), Ubertip (Tooltip - Normal - Extended)
+{
+Short distance teleportation that causes a shockwave at the target destination where you land.
+}
+
+STRING 253
+// Abilities: A000 (Catastrophic Blink), Ubertip (Tooltip - Normal - Extended)
+{
+Short distance teleportation that causes a shockwave at the target destination where you land.
+}
+
+STRING 254
+// Units: nhem (High Elf), Ubertip (Tooltip - Extended)
+{
+Provides small boost to gold income. Has slightly more health than felame villager.  |n|cffffff00+5 Gold|r
+}
+
+STRING 255
+// Units: nhef (High Elf), Ubertip (Tooltip - Extended)
+{
+Provides small boost to gold income. Is slightly faster than male villager. |n|cffffff00+5 Gold|r
+}
+
+STRING 256
+// Upgrades: R002 (Chaos), Ubertip (Tooltip - Extended)
+{
+Improves the move speed of your workers.|n|cff808080+50 movespeed|r
+}
+
+STRING 257
+// Abilities: A00I (Hardened Steel), Name (Name)
+{
+Hardened Steel
+}
+
+STRING 258
+// Abilities: A00I (Hardened Steel), Tip (Tooltip - Normal)
+{
+Hardened Steel
+}
+
+STRING 260
+// Abilities: A00I (Hardened Steel), Ubertip (Tooltip - Normal - Extended)
+{
+Reduces all attacks on the mechanical unit by 15 damage. Attacks cannot be reduced below 4 damage.
+}
+
+STRING 261
+// Units: hhou (Farm), Ubertip (Tooltip - Extended)
+{
+Provides food and allows training of villagers and pigs. Can also provide buffs for units as well. 
+}
+
+STRING 262
+// Units: hwtw (Scout Tower), Ubertip (Tooltip - Extended)
+{
+Durable Observation tower that has 1800 vision range.
+}
+
+STRING 263
+// Units: h00O (Artifact Pedestal), Name (Name)
+{
+Artifact Pedestal
+}
+
+STRING 264
+// Abilities: A00J (Base - Ability Click Trigger), Tip (Tooltip - Normal)
+{
+Ability Click Trigger
+}
+
+STRING 265
+// Abilities: A00J (Base - Ability Click Trigger), Ubertip (Tooltip - Normal - Extended)
+{
+Ability Click Trigger
+}
+
+STRING 267
+// Abilities: A00J (Base - Ability Click Trigger), Name (Name)
+{
+Base - Ability Click Trigger
+}
+
+STRING 268
+// Abilities: A00K (Create - Demon Crown), Tip (Tooltip - Normal)
+{
+|cff8080ffArtifact|r - Demon Crown
+}
+
+STRING 271
+// Abilities: A00K (Create - Demon Crown), Ubertip (Tooltip - Normal - Extended)
+{
+|cffc0c0c0Default|r: Enables towns to summon lesser demons.
+
+|cff8080ffWhen equipped in the Artifact Pedestal|r: 
+Enables your units to go into a demonic frenzy, providing a damage boost at the cost of health.
+
+|cff00ffffWhen equipped on a Hero|r:
+Enables your hero to temporarily transform into a powerful demon. 
+
+|cff800000When destroyed|r: 
+Opens demonic rifts across the map, sparking a demonic invasion. 
+Allows you to choose a different artifact.
+}
+
+STRING 272
+// Items: I004 (Demon Crown), Name (Name)
+{
+Demon Crown
+}
+
+STRING 273
+// Items: I004 (Demon Crown), Tip (Tooltip - Basic)
+{
+Demonic Crown
+}
+
+STRING 274
+// Items: I004 (Demon Crown), Ubertip (Tooltip - Extended)
+{
+A crown that allows you to summon demons.
+}
+
+STRING 275
+// Units: h00O (Artifact Pedestal), Tip (Tooltip - Basic)
+{
+Build Artifact Pedestal
+}
+
+STRING 276
+// Units: h00O (Artifact Pedestal), Ubertip (Tooltip - Extended)
+{
+Enables you to choose from a set of artifacts that will provide effects/bonuses for your hero, units and buildings.
+}
+
+STRING 277
+// Abilities: A00L (Dark Portal), EditorSuffix (Editor Suffix)
+{
+(Demon Crown)
+}
+
+STRING 278
+// Abilities: A00L (Dark Portal), Ubertip (Tooltip - Normal - Extended)
+{
+The |cff8080ffDemon Crown|r enables the ability to open a portal, allowing demons to step through and do your bidding.
+}
+
+STRING 279
+// Abilities: A00K (Create - Demon Crown), Name (Name)
+{
+Create - Demon Crown
 }
 
