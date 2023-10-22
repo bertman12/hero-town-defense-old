@@ -2,7 +2,7 @@ import { Destructable, File, FogModifier, Group, Point, Timer, TimerDialog, Trig
 import { Players } from "w3ts/globals";
 import { UNIT_IDS, ZOMBIE_MUTATION_ID, SHRIFT_ABILITIES, ABILITY_ID, DESTRUCTABLE_ID, ITEM_ID } from "enums";
 import { OrderId } from "w3ts/globals/order";
-import { playerStates } from "players";
+import { playerStates } from "player-utils/player-data";
 
 export function setupAbilityTriggers(){
     trig_catastrophicBlink();
@@ -233,7 +233,7 @@ function trig_createDemonCrown(){
         let item = new Item(ITEM_ID.demonCrown, 0,0);
         artifactPedestal.addItem(item);
         
-        playerStates.get(p).addArtifact("demonCrown")
+        playerStates.get(p.id).addArtifact("demonCrown")
         print("Player state updated for ", p.name, " to add demon crown to their artifacts");
     });
 }

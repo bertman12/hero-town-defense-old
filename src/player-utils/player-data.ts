@@ -2,6 +2,8 @@ import { townsCreated } from "../dynamicCreation";
 import { ABILITY_ID, ITEM_ID } from "../enums";
 import { MapPlayer } from "w3ts";
 
+export const playerStates = new Map<number, PlayerState>();
+
 //Keeps track of a particular player's state
 export class PlayerState {
     artifactNames: ArtifactName[];
@@ -10,7 +12,6 @@ export class PlayerState {
 
     addArtifact(artifactName: keyof typeof artifactDataSheet){
         //When you add an artifact, setup the trigger for the artifact pedestal for the
-
     }
 
     initializeArtifact(artifactName: ArtifactName){

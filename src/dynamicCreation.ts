@@ -9,7 +9,7 @@ import { Camera, Destructable, FogModifier, Point, Rectangle, Timer, Unit } from
 import { Players } from "w3ts/globals";
 import { tileSets } from 'gameConstants';
 import { chooseRandomEnumValue } from 'utils/enumUtils';
-import { getUsersPlaying } from 'players';
+import { getUsersPlaying } from 'player-utils/utils';
 import { checkDestructablesInRegion } from 'utils/terrain';
 
 /**

@@ -5,11 +5,12 @@ import { addScriptHook, W3TS_HOOK } from "w3ts/hooks";
 import { UNIT_IDS, ZOMBIE_MUTATION_ID, SHRIFT_ABILITIES, DESTRUCTABLE_ID, TERRAIN_CODE, ABILITY_ID } from "enums";
 import { setupAbilityTriggers } from "abilities";
 import { initAttackerForces } from "enemies";
-import { initializePlayers } from "players";
+import {  initializePlayers } from "player-utils/utils";
 import { initEconomy } from "economy";
 import { playStartMusic } from "music";
 import { generateWorld } from "dynamicCreation";
 import { printTerrainTypes } from "utils/terrain";
+import { PlayerState, playerStates } from "player-utils/player-data";
  
 const BUILD_DATE = compiletime(() => new Date().toUTCString());
 const TS_VERSION = compiletime(() => require("typescript").version);
@@ -54,9 +55,14 @@ function mapStart(){
   // buttonFrame.setVisible(true);
 
   // BlzCreateFrame("Test", )
+  
+  Players.forEach(p => {
+    playerStates.set(p.id, new PlayerState(p));
+  });
 
   setupAbilityTriggers();
   initializePlayers();
+  // createPlayerState();
   initEconomy();
   generateWorld();
   playStartMusic();

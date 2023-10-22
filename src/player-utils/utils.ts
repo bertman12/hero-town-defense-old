@@ -1,13 +1,12 @@
 import { File, Point, Trigger, Unit, MapPlayer, Camera } from "w3ts";
 import { Players } from "w3ts/globals";
-import { BUILDING_IDS, capturableUSet, CUSTOM_UID, TERRAIN_CODE, UNIT_IDS } from "enums";
-import { townsCreated } from "dynamicCreation";
-import { PlayerState } from "players/player-data";
+import { BUILDING_IDS, capturableUSet, CUSTOM_UID, TERRAIN_CODE, UNIT_IDS } from "../enums";
+// import { townsCreated } from "dynamicCreation";
+import { PlayerState, playerStates } from "./player-data";
 
 export let userPlayers = 0;
 
 export const userPlayerIndexes = [];
-export const playerStates: Map<MapPlayer, PlayerState> = new Map<MapPlayer, PlayerState>();
 
 const defenderSpawnCoords = {
     x: -15880,
@@ -31,18 +30,26 @@ export function getUsersPlaying(): MapPlayer[]{
     return arr;
 }
 
+function createPlayerState(){
+    // getUsersPlaying().forEach(player => {
+    //     playerStates.set(player.id, new PlayerState(player));
+    // });
+    // Players.forEach(p => {
+    //     playerStates.set(p.id, new PlayerState(p));
+    //   });
+}
+
 export function initializePlayers(){
     //Register Triggers
     trig_controlTown();
     trig_checkFarmPlacement();
+    createPlayerState();
 
     //Give start resources
     Players.forEach((player, playerIndex) => {
 
         // SetPlayerUnitAvailableBJ(FourCC('h00J'), false, player.handle);
         // SetPlayerUnitAvailableBJ(FourCC('h00I'), false, player.handle);
-
-        playerStates.set(player, new PlayerState(player));
 
         player.setState(PLAYER_STATE_GIVES_BOUNTY, 1);
         
